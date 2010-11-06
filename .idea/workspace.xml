@@ -58,8 +58,8 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="auto_view_spec.rb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/spec/support/auto_view_spec.rb">
+      <file leaf-file-name="check_view_specs.rb" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/spec/support/check_view_specs.rb">
           <provider selected="true" editor-type-id="text-editor">
             <state line="5" column="0" selection-start="351" selection-end="351" vertical-scroll-proportion="-3.8461537">
               <folding />
@@ -88,7 +88,7 @@
       <file leaf-file-name="application.html.erb_spec.rb" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/spec/views/layouts/application.html.erb_spec.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="2" column="17" selection-start="40" selection-end="40" vertical-scroll-proportion="0.1010101">
+            <state line="4" column="3" selection-start="108" selection-end="108" vertical-scroll-proportion="0.2020202">
               <folding />
             </state>
           </provider>
@@ -863,7 +863,7 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/spec/support/auto_view_spec.rb">
+    <entry file="file://$PROJECT_DIR$/spec/support/check_view_specs.rb">
       <provider selected="true" editor-type-id="text-editor">
         <state line="5" column="0" selection-start="351" selection-end="351" vertical-scroll-proportion="-3.8461537">
           <folding />
@@ -886,7 +886,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/spec/views/layouts/application.html.erb_spec.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="17" selection-start="40" selection-end="40" vertical-scroll-proportion="0.1010101">
+        <state line="4" column="3" selection-start="108" selection-end="108" vertical-scroll-proportion="0.2020202">
           <folding />
         </state>
       </provider>
