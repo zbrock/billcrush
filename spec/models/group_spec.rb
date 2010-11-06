@@ -1,15 +1,8 @@
 require 'spec_helper'
 
 describe Group do
-  describe "validations" do
-    describe "name" do
-      it "requires name to be set" do
-        Factory.build(:group, :name => nil).should_not be_valid
-        Factory.build(:group, :name => "").should_not be_valid
-        Factory.build(:group, :name => "foo").should be_valid
-      end
-    end
-  end
+  it{ should validate_presence_of(:name) }
+  it{ should have_many(:members) }
   describe "life cycle" do
     describe "canonicalized_name" do
       [

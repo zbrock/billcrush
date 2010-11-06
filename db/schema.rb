@@ -10,11 +10,19 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101106192649) do
+ActiveRecord::Schema.define(:version => 20101106211130) do
 
   create_table "groups", :force => true do |t|
     t.string   "name"
     t.string   "canonicalized_name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "members", :force => true do |t|
+    t.integer  "group_id"
+    t.string   "name"
+    t.boolean  "active",     :default => true
     t.datetime "created_at"
     t.datetime "updated_at"
   end
