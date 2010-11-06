@@ -1,1 +1,8 @@
 Crush your shared expenses.
+
+#Feature TODO
+Creating a new group
+Adding people to a group
+Adding a line item
+ - creates transactions between the users who owe and the user who is owed
+See every users in a group's current balance
