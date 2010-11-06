@@ -19,5 +19,6 @@ class GroupsController < ApplicationController
 
   def show
     @group = Group.find(params[:id])
+    @new_member = @group.members.build
   end  
 end

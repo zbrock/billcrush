@@ -5,7 +5,6 @@ gem 'rails', '3.0.1'
 gem 'mysql2'
 
 gem 'unicorn'
-gem 'nokogiri'
 gem 'factory_girl_rails'
 gem 'forgery'
 
