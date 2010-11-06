@@ -6,3 +6,6 @@ Adding people to a group
 Adding a line item
  - creates transactions between the users who owe and the user who is owed
 See every users in a group's current balance
+Show easiest way to settle
+Button to mark debt as settled
+Ability to record 1-1 payments (i.e. Zach loaned brian $5)
