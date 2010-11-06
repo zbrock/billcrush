@@ -2,6 +2,14 @@ require 'spec_helper'
 
 describe GroupsController do
   render_views
+
+  describe "#show" do
+    before(:each) do
+      get :show, :id => Factory(:group)
+    end
+    it { should assign_to(:new_member) }
+  end
+
   describe "#create" do
     context "with a valid name" do
       before { @params = {:group => {:name => "foobar"}} }

@@ -1,1 +1,12 @@
-Billcrush: <%= @group.name %>
+<div>Billcrush: <%= @group.name %></div>
+<p>
+Members:
+<% @group.members.each do |member| %>
+  <%= member.name %>
+<% end %>
+
+<%= form_for [@group, @new_member] do |f| %>
+  <%= f.label(:name) %>
+  <%= f.text_field(:name) %>
+  <%= f.submit %>
+<% end %>
