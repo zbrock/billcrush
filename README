@@ -2,11 +2,13 @@ Crush your shared expenses.
 
 #Feature TODO
 X Creating a new group
-Adding people to a group
+X Adding people to a group
 Adding a line item
  - creates transactions between the users who owe and the user who is owed
 See every users in a group's current balance
 Access groups with nice urls (/sanchez instead of /2)
 Show easiest way to settle
 Button to mark debt as settled
-Ability to record 1-1 payments (i.e. Zach loaned brian $5)
+Form to record 1-1 payments (i.e. Zach loaned brian $5) (modeling should be same)
+Disable a user so they don't show up in the new entry form anymore
+Mark a transaction as deleted so it doesn't contribute to balance calculation but stil shows up
