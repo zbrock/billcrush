@@ -11,17 +11,27 @@ describe TransactionsController do
       before do
         @params = {:group_id => @group.to_param,
                     :transaction =>
-                      {:amount_cents=>"3000",
-                       :payee => @member_one.to_param,
+                      {:description => "stuff and puff",
+                       :amount_cents=>"3000",
+                       :payer => @member_one.to_param,
                         :members =>
-                     [{@member_one.to_param => {"amount"=>"2000"}},
-                      {@member_two.to_param => {"amount"=>"1000"}}]
+                     [{:amount=>"2000", :id => @member_one.to_param},
+                     {:amount=>"1000", :id => @member_two.to_param}]
         }}
       end
 
       it "changes the transaction count by 1" do
         expect { post :create, @params }.to change(Transaction, :count).by(1)
       end
+
+      it "sets the values correctly" do
+        post :create, @params
+        transaction = assigns[:transaction]
+        transaction.amount_cents.should == 3000
+        transaction.description.should == "stuff and puff"
+        transaction.should be_active
+      end
+
       it "changes the Debt count by 2" do
         expect { post :create, @params }.to change(Debt, :count).by(2)
       end
@@ -35,19 +45,22 @@ describe TransactionsController do
 
     context "with invalid params" do
       before do
-        @params = {:group_id => @group.to_param, :transactions =>
-          []
-        }
+         @params = {:group_id => @group.to_param,
+                    :transaction =>
+                      {:amount_cents => "3000",
+                       :payer => @member_one.to_param,
+                        :members =>[]
+        }}
       end
 
       it "changes the transaction count by 0" do
-        expect { post :create, @params }.to_not change(Transaction, :count)
+        expect { post :create, @params }.to_not change(Transaction.scoped_by_active(true), :count)
       end
 
       it "redirects to the new group page" do
         post :create, @params
         response.should redirect_to(group_url(@group))
-        flash[:message].should_not be_blank
+        flash[:error].should_not be_blank
       end
     end
   end

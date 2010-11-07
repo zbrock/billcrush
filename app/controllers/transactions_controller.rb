@@ -2,10 +2,25 @@ class TransactionsController < ApplicationController
   before_filter :load_group
 
   def create
-    if Transaction.add(params[:transaction])
-      params[:message] = "Transaction added!"
+    payer = @group.members.find(params[:transaction][:payer])
+    # create inactive so we can create the associated debts
+    @transaction = @group.transactions.build(:description => params[:transaction][:description],
+                                             :amount_cents => params[:transaction][:amount_cents].to_i,
+                                             :active => false)
+    if @transaction.save
+      members = params[:transaction][:members]
+      members.each do |member|
+        amount = member[:amount].to_i
+        debtor = @group.members.find(member[:id])
+        @transaction.debts.create!(:debtor => debtor, :creditor => payer, :amount_cents => amount)
+      end
+    end
+
+    # check that all associated data is in good order before making active
+    if @transaction.validate_and_activate!
+      flash[:message] = "Transaction added!"
     else
-      params[:error] = "Error!"
+      flash[:error] = "Error!"
     end
     redirect_to group_url(@group)
   end
