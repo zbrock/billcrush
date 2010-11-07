@@ -5,8 +5,10 @@ class Transaction < ActiveRecord::Base
   validates_numericality_of :amount_cents, :greater_than => 0
 
   def validate_and_activate!
-    return false if debts.sum(:amount_cents) != amount_cents
-    update_attributes(:active => true)
-    debts.update_all({:active => true})
+    ActiveRecord::Base.transaction do
+      return false if debts.sum(:amount_cents) != amount_cents
+      update_attributes(:active => true)
+      debts.update_all({:active => true})
+    end
   end
 end
