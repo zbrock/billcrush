@@ -1,11 +1,27 @@
 <div>Billcrush: <%= @group.name %></div>
 Members:
-<% @group.members.each do |member| %>
+<% @members.each do |member| %>
   <%= member.name %>
+<% end %>
+
+<% @transactions.each do |transaction| %>
+  <%= transaction.description %> - <%= transaction.amount_cents %>
 <% end %>
 
 <%= form_for [@group, @new_member] do |f| %>
   <%= f.label(:name) %>
   <%= f.text_field(:name) %>
   <%= f.submit %>
+<% end %>
+
+<%= form_for [@group, @new_transaction] do |tf| %>
+  <%= tf.label :payee %>
+  <%= collection_select(:transaction, :payee, @group.members, :id, :name) %>
+  <%= tf.label :amount_cents, "Total amount" %>
+  <%= tf.text_field :amount_cents %>
+  <% @members.each do |member| %>
+    <label for="transaction_<%= member.to_param %>_amount"><%= member.name %></label>
+    <input id="transaction_<%= member.to_param %>_amount" name="transaction[members][][<%= member.to_param %>][amount]" size="6" type="text" />
+  <% end %>
+  <%= tf.submit %>
 <% end %>
