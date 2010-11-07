@@ -4,14 +4,14 @@
 <h3>Members</h3>
 <ul>
 <% @members.each do |member| %>
-  <li><%= member.name %> - <%= member.balance %></li>
+  <li><%= member.name %> - <%= member.balance.to_f / 100 %></li>
 <% end %>
 </ul>
 
 <h3>Transactions</h3>
 <ul>
 <% @transactions.each do |transaction| %>
-  <li><%= transaction.description %> - <%= transaction.amount %></li>
+  <li><%= transaction.description %> - <%= transaction.amount.to_f / 100 %></li>
 <% end %>
 </ul>
 
