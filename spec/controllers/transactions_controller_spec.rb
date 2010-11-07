@@ -10,14 +10,14 @@ describe TransactionsController do
     context "with valid params" do
       before do
         @params = {:group_id => @group.to_param,
-                    :transaction =>
-                      {:description => "stuff and puff",
-                       :amount =>"30",
-                       :payer => @member_one.to_param,
-                        :members =>
-                     [{:amount=>"20", :id => @member_one.to_param},
-                     {:amount=>"10", :id => @member_two.to_param}]
-        }}
+                   :transaction =>
+                     {:description => "stuff and puff",
+                      :amount =>"30",
+                      :payer => @member_one.to_param,
+                      :members =>
+                        [{:amount=>"20", :id => @member_one.to_param},
+                         {:amount=>"10", :id => @member_two.to_param}]
+                     }}
       end
 
       it "changes the transaction count by 1" do
@@ -49,12 +49,12 @@ describe TransactionsController do
 
     context "with invalid params" do
       before do
-         @params = {:group_id => @group.to_param,
-                    :transaction =>
-                      {:amount => "300",
-                       :payer => @member_one.to_param,
-                        :members =>[]
-        }}
+        @params = {:group_id => @group.to_param,
+                   :transaction =>
+                     {:amount => "300",
+                      :payer => @member_one.to_param,
+                      :members =>[{:amount=>"20", :id => @member_one.to_param}]
+                     }}
       end
 
       it "changes the transaction count by 0" do
@@ -65,6 +65,14 @@ describe TransactionsController do
         post :create, @params
         response.should redirect_to(group_url(@group))
         flash[:error].should_not be_blank
+      end
+
+      it "doesn't update people's balances" do
+        @member_one.balance.should == 0
+        @member_two.balance.should == 0
+        post :create, @params
+        @member_one.balance.should == 0
+        @member_two.balance.should == 0
       end
     end
   end
