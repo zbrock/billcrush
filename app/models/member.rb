@@ -6,6 +6,6 @@ class Member < ActiveRecord::Base
   has_many :credits, :class_name => "Debt", :foreign_key => "creditor_id"
 
   def balance
-    credits.sum(:amount_cents) - debits.sum(:amount_cents)
+    credits.active.sum(:amount_cents) - debits.active.sum(:amount_cents)
   end
 end

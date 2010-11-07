@@ -20,7 +20,7 @@ class GroupsController < ApplicationController
   def show
     @group = Group.find(params[:id])
     @members = @group.members
-    @transactions = @group.transactions
+    @transactions = @group.transactions.scoped_by_active(true)
     @new_member = @group.members.build
     @new_transaction = @group.transactions.build
     # get rid of the new ones
