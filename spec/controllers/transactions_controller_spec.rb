@@ -12,11 +12,11 @@ describe TransactionsController do
         @params = {:group_id => @group.to_param,
                     :transaction =>
                       {:description => "stuff and puff",
-                       :amount_cents=>"3000",
+                       :amount =>"30",
                        :payer => @member_one.to_param,
                         :members =>
-                     [{:amount=>"2000", :id => @member_one.to_param},
-                     {:amount=>"1000", :id => @member_two.to_param}]
+                     [{:amount=>"20", :id => @member_one.to_param},
+                     {:amount=>"10", :id => @member_two.to_param}]
         }}
       end
 
@@ -27,7 +27,7 @@ describe TransactionsController do
       it "sets the values correctly" do
         post :create, @params
         transaction = assigns[:transaction]
-        transaction.amount_cents.should == 3000
+        transaction.amount.should == 3000
         transaction.description.should == "stuff and puff"
         transaction.should be_active
       end
@@ -47,7 +47,7 @@ describe TransactionsController do
       before do
          @params = {:group_id => @group.to_param,
                     :transaction =>
-                      {:amount_cents => "3000",
+                      {:amount => "300",
                        :payer => @member_one.to_param,
                         :members =>[]
         }}

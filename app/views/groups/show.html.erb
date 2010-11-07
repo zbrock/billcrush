@@ -11,7 +11,7 @@
 <h3>Transactions</h3>
 <ul>
 <% @transactions.each do |transaction| %>
-  <li><%= transaction.description %> - <%= transaction.amount_cents %></li>
+  <li><%= transaction.description %> - <%= transaction.amount %></li>
 <% end %>
 </ul>
 
@@ -27,8 +27,8 @@
   <%= collection_select(:transaction, :payer, @group.members, :id, :name) %>
   <%= tf.label :description %>
   <%= tf.text_field :description %>
-  <%= tf.label :amount_cents, "Total amount" %>
-  <%= tf.text_field :amount_cents %>
+  <%= tf.label :amount, "Total amount" %>
+  <%= tf.text_field :amount %>
   <% @members.each do |member| %>
     <label for="transaction_<%= member.to_param %>_amount"><%= member.name %></label>
     <input type="hidden" name="transaction[members][][id]" value="<%= member.to_param %>" />

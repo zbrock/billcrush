@@ -20,6 +20,6 @@ end
 
 Factory.define(:transaction) do |t|
   t.association(:group)
-  t.amount_cents { Forgery(:basic).number({:at_least => 1_00, :at_most => 10_00}) }
+  t.amount { Forgery(:basic).number({:at_least => 1_00, :at_most => 10_00}) }
   t.description { Forgery(:lorem_ipsum).words(2) }
 end

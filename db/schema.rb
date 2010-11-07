@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101107082856) do
+ActiveRecord::Schema.define(:version => 20101107200917) do
 
   create_table "debts", :force => true do |t|
     t.integer  "debtor_id"
@@ -42,8 +42,8 @@ ActiveRecord::Schema.define(:version => 20101107082856) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "group_id"
-    t.integer  "amount_cents"
-    t.boolean  "active",       :default => false
+    t.integer  "amount"
+    t.boolean  "active",      :default => false
   end
 
 end
