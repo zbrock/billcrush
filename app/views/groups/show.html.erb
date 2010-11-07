@@ -15,6 +15,14 @@
 <% end %>
 </ul>
 
+<h3>Best Way to Settle</h3>
+<ul>
+<% @group.best_way_to_settle.each do |settlement| %>
+  <li><%= settlement[:payer].name %> pays <%= settlement[:payee].name %> $<%= settlement[:amount].to_f / 100 %></li>
+<% end %>
+</ul>
+
+
 
 <%= form_for [@group, @new_member] do |f| %>
   <%= f.label(:name) %>
