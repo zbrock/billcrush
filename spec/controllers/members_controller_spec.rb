@@ -6,7 +6,7 @@ describe MembersController do
     context "with valid params" do
       before { @params = {:group_id => @group.to_param, :member => {:name => "Bob"}} }
 
-      it "changes the group count by 1" do
+      it "changes the member count by 1" do
         expect { post :create, @params }.to change(Member, :count).by(1)
       end
 
@@ -21,7 +21,7 @@ describe MembersController do
     context "with invalid params" do
       before { @params = {:group_id => @group.to_param, :member => {:name => ""}} }
 
-      it "changes the group count by 0" do
+      it "changes the member count by 0" do
         expect { post :create, @params }.to_not change(Member, :count)
       end
 
