@@ -4,21 +4,21 @@
 <h3>Members</h3>
 <ul>
 <% @members.each do |member| %>
-  <li><%= member.name %> - <%= member.balance.to_f / 100 %></li>
+  <li><%= member.name %> - <%= money(member.balance) %></li>
 <% end %>
 </ul>
 
 <h3>Transactions</h3>
 <ul>
 <% @transactions.each do |transaction| %>
-  <li><%= transaction.description %> - <%= transaction.amount.to_f / 100 %></li>
+  <li><%= transaction.description %> - <%= money(transaction.amount) %></li>
 <% end %>
 </ul>
 
 <h3>Best Way to Settle</h3>
 <ul>
 <% @group.best_way_to_settle.each do |settlement| %>
-  <li><%= settlement[:payer].name %> pays <%= settlement[:payee].name %> $<%= settlement[:amount].to_f / 100 %></li>
+  <li><%= settlement[:payer].name %> pays <%= settlement[:payee].name %> <%= money(settlement[:amount]) %></li>
 <% end %>
 </ul>
 
