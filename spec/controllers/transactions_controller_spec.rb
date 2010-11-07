@@ -32,8 +32,10 @@ describe TransactionsController do
         transaction.should be_active
       end
 
-      it "changes the Debt count by 2" do
-        expect { post :create, @params }.to change(Debit, :count).by(2)
+      it "sets the users balances appropriately" do
+        post :create, @params
+        @member_one.balance.should == 1000
+        @member_two.balance.should == -1000
       end
 
       it "redirects to the group page" do
