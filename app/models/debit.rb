@@ -1,4 +1,4 @@
-class Debt < ActiveRecord::Base
+class Debit < ActiveRecord::Base
   validates :amount_cents, :debtor, :creditor, :presence => true
 
   belongs_to :debtor, :class_name => "Member", :inverse_of => :debits

@@ -10,9 +10,9 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101107200917) do
+ActiveRecord::Schema.define(:version => 20101107214852) do
 
-  create_table "debts", :force => true do |t|
+  create_table "debits", :force => true do |t|
     t.integer  "debtor_id"
     t.integer  "creditor_id"
     t.integer  "amount_cents"

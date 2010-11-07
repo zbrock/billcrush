@@ -33,7 +33,7 @@ describe TransactionsController do
       end
 
       it "changes the Debt count by 2" do
-        expect { post :create, @params }.to change(Debt, :count).by(2)
+        expect { post :create, @params }.to change(Debit, :count).by(2)
       end
 
       it "redirects to the group page" do

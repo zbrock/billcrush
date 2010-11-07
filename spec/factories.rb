@@ -10,7 +10,7 @@ Factory.define(:member) do |m|
   m.name { Forgery(:name).first_name }
 end
 
-Factory.define(:debt) do |d|
+Factory.define(:debit) do |d|
   d.association(:debtor, :factory => :member)
   d.association(:creditor, :factory => :member)
   d.association(:transaction)

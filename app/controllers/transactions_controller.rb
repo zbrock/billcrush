@@ -12,7 +12,7 @@ class TransactionsController < ApplicationController
       params[:transaction][:members].each do |member|
         debtor = @group.members.find(member[:id])
         debt_amount = (member[:amount].to_f * 100).to_i
-        @transaction.debts.create!(:debtor => debtor, :creditor => payer, :amount_cents => debt_amount)
+        @transaction.debits.create!(:debtor => debtor, :creditor => payer, :amount_cents => debt_amount)
       end
     end
 

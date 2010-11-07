@@ -39,11 +39,11 @@ describe Group do
       end
 
       it "returns an array of hashes showing the best way to settle" do
-        Factory(:debt, :debtor => @member_one, :creditor => @member_two, :amount_cents => 10_00)
-        Factory(:debt, :debtor => @member_three, :creditor => @member_two, :amount_cents => 10_00)
-        Factory(:debt, :debtor => @member_two, :creditor => @member_one, :amount_cents => 5_00)
-        Factory(:debt, :debtor => @member_three, :creditor => @member_one, :amount_cents => 1_00)
-        Factory(:debt, :debtor => @member_one, :creditor => @member_four, :amount_cents => 1_00)
+        Factory(:debit, :debtor => @member_one, :creditor => @member_two, :amount_cents => 10_00)
+        Factory(:debit, :debtor => @member_three, :creditor => @member_two, :amount_cents => 10_00)
+        Factory(:debit, :debtor => @member_two, :creditor => @member_one, :amount_cents => 5_00)
+        Factory(:debit, :debtor => @member_three, :creditor => @member_one, :amount_cents => 1_00)
+        Factory(:debit, :debtor => @member_one, :creditor => @member_four, :amount_cents => 1_00)
         @member_one.balance.should == -5_00
         @member_two.balance.should == 15_00
         @member_three.balance.should == -11_00
@@ -56,16 +56,16 @@ describe Group do
       end
 
       it "doesn't include people who don't have debt" do
-        Factory(:debt, :debtor => @member_one, :creditor => @member_two, :amount_cents => 10_93)
+        Factory(:debit, :debtor => @member_one, :creditor => @member_two, :amount_cents => 10_93)
         @member_one.balance.should == -10_93
         @member_two.balance.should == 10_93
         @group.best_way_to_settle.should == [{:payer => @member_one, :payee => @member_two, :amount => 10_93}]
       end
 
       it "returns an empty array if all the debts cancel" do
-        Factory(:debt, :debtor => @member_one, :creditor => @member_two, :amount_cents => 10_00)
-        Factory(:debt, :debtor => @member_two, :creditor => @member_three, :amount_cents => 10_00)
-        Factory(:debt, :debtor => @member_three, :creditor => @member_one, :amount_cents => 10_00)
+        Factory(:debit, :debtor => @member_one, :creditor => @member_two, :amount_cents => 10_00)
+        Factory(:debit, :debtor => @member_two, :creditor => @member_three, :amount_cents => 10_00)
+        Factory(:debit, :debtor => @member_three, :creditor => @member_one, :amount_cents => 10_00)
         @group.best_way_to_settle.should == []
       end
     end
