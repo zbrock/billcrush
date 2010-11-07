@@ -7,4 +7,5 @@ describe Debt do
   
   it { should belong_to(:debtor) }
   it { should belong_to(:creditor) }
+  it { should belong_to(:transaction) }
 end

@@ -3,4 +3,6 @@ class Debt < ActiveRecord::Base
 
   belongs_to :debtor, :class_name => "Member", :inverse_of => :debits
   belongs_to :creditor, :class_name => "Member", :inverse_of => :credits
+  belongs_to :transaction
+  
 end
