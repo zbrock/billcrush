@@ -33,6 +33,8 @@ describe TransactionsController do
       end
 
       it "sets the users balances appropriately" do
+        @member_one.balance.should == 0
+        @member_two.balance.should == 0
         post :create, @params
         @member_one.balance.should == 1000
         @member_two.balance.should == -1000
