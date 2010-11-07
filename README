@@ -12,3 +12,4 @@ Button to mark debt as settled
 Form to record 1-1 payments (i.e. Zach loaned brian $5) (modeling should be same)
 Disable a user so they don't show up in the new entry form anymore
 Mark a transaction as deleted so it doesn't contribute to balance calculation but stil shows up
+Can edit created at date when creating an item
