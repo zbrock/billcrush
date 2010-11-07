@@ -8,21 +8,21 @@ describe Member do
   it { should have_many(:debits) }
 
   describe "#balance" do
+    before{ @user = Factory(:member) }
     it "returns the sum of the members debits and credits" do
-      user = Factory(:member)
-      Factory(:debit, :creditor => user, :debtor => Factory(:member), :amount_cents => 25_00)
-      Factory(:debit, :creditor => user, :debtor => Factory(:member), :amount_cents => 15_00)
-      Factory(:debit, :creditor => Factory(:member), :debtor => user, :amount_cents => 5_00)
-      user.balance.should == 35_00
+      Factory(:debit, :member => @user, :amount_cents => 25_00)
+      Factory(:debit, :member => @user, :amount_cents => 15_00)
+      Factory(:credit, :member => @user, :amount_cents => 10_00)
+      @user.balance.should == -30_00
     end
+
     it "returns 0 if there are no debits and credits" do
-      Factory(:member).balance.should == 0
+      @user.balance.should == 0
     end
 
     it "ignores inactive debts" do
-      user = Factory(:member)
-      Factory(:debit, :creditor => user, :active => false, :debtor => Factory(:member), :amount_cents => 25_00)
-      user.balance.should == 0
+      Factory(:debit, :member => @user, :amount_cents => 25_00, :active => false)
+      @user.balance.should == 0
     end
   end
 end

@@ -10,16 +10,24 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101107214852) do
+ActiveRecord::Schema.define(:version => 20101107220143) do
+
+  create_table "credits", :force => true do |t|
+    t.integer  "member_id"
+    t.integer  "amount_cents"
+    t.integer  "transaction_id"
+    t.boolean  "active",         :default => true
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "debits", :force => true do |t|
-    t.integer  "debtor_id"
-    t.integer  "creditor_id"
     t.integer  "amount_cents"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "transaction_id"
     t.boolean  "active",         :default => false
+    t.integer  "member_id"
   end
 
   create_table "groups", :force => true do |t|
