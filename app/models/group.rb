@@ -2,6 +2,7 @@ class Group < ActiveRecord::Base
   validates :name, :presence => true
   before_save :canonicalize_name
   has_many :members
+  has_many :transactions
 
   private
   def canonicalize_name

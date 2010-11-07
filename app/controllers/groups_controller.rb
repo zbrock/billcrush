@@ -19,6 +19,12 @@ class GroupsController < ApplicationController
 
   def show
     @group = Group.find(params[:id])
+    @members = @group.members
+    @transactions = @group.transactions
     @new_member = @group.members.build
-  end  
+    @new_transaction = @group.transactions.build
+    # get rid of the new ones
+    @members.reload
+    @transactions.reload
+  end
 end

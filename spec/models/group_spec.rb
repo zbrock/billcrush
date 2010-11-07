@@ -3,6 +3,7 @@ require 'spec_helper'
 describe Group do
   it{ should validate_presence_of(:name) }
   it{ should have_many(:members) }
+  it{ should have_many(:transactions) }
   describe "life cycle" do
     describe "canonicalized_name" do
       [
