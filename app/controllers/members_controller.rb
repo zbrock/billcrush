@@ -10,10 +10,5 @@ class MembersController < ApplicationController
     end
     redirect_to(group_url(@group))
   end
-
-  private
-  def load_group
-    @group = Group.find(params[:group_id])
-  end
 end
   
