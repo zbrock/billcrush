@@ -2,7 +2,7 @@ source 'http://rubygems.org'
 
 gem 'rails', '3.0.1'
 gem 'mysql2'
-
+gem "awesome_print"
 gem 'unicorn'
 gem 'factory_girl_rails'
 gem 'forgery'
