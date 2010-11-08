@@ -8,13 +8,14 @@ X - creates transactions between the users who owe and the user who is owed
 X See every users in a group's current balance
 X Show easiest way to settle
 See details for each transaction (grid view)
-Member filter transactions for just a given user
-Multiple members can pay
-Button to mark debt as settled
 Access groups with nice urls (/sanchez instead of /2.  might need to do base32 encoding if we're opening it up to the world)
-Form to record 1-1 payments (i.e. Zach loaned brian $5) (modeling should be same, just a nicer ui)
-Disable a user so they don't show up in the new entry form anymore
 Mark a transaction as deleted so it doesn't contribute to balance calculation but still shows up
+Member filter transactions for just a given user
+Button to mark debt as settled
+Disable a user so they don't show up in the new entry form anymore
+
+Multiple members can pay
 Can set created at date when creating an item
 Members can edit transactions
+Form to record 1-1 payments (i.e. Zach loaned brian $5) (modeling should be same, just a nicer ui)
 
