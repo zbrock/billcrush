@@ -34,6 +34,13 @@ describe Group do
         @member_four = Factory(:member, :group => @group)
       end
 
+      context "with data that will never converge" do
+        it "times out" do
+          Factory(:debit, :member => @member_one, :amount_cents => 100)
+          expect { @group.best_way_to_settle }.to raise_error(Timeout::Error)
+        end
+      end
+
       it "returns an empty array when there is no debt to settle" do
         @group.best_way_to_settle.should == []
       end
