@@ -8,4 +8,8 @@ class Member < ActiveRecord::Base
   def balance
     (credits.active.sum(:amount_cents) - debits.active.sum(:amount_cents)).to_i
   end
+
+  def debits_for_transaction(transaction)
+    transaction.debits.scoped_by_member_id(self).sum(:amount_cents)
+  end
 end

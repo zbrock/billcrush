@@ -9,11 +9,27 @@
 </ul>
 
 <h3>Transactions</h3>
-<ul>
+<table>
+  <tr>
+    <th>Payer</th>
+    <th>Description</th>
+  <% @group.members.each do |member|%>
+    <th><%= member.name %></th>
+  <% end %>
+    <th>Total</th>
+  </tr>
 <% @transactions.each do |transaction| %>
-  <li><%= transaction.description %> - <%= money(transaction.amount) %></li>
+  <tr>
+    <%# cheating here by assuming only one payer %>
+    <td><%= transaction.credits.first.member.name %></td>
+    <td><%= transaction.description %></td>
+    <% @group.members.each do |member| %>
+      <td><%= money(member.debits_for_transaction(transaction)) %></td>
+    <% end %>
+    <td><strong><%= money(transaction.amount) %></strong></td>
+  </tr>
 <% end %>
-</ul>
+</table>
 
 <h3>Best Way to Settle</h3>
 <ul>
