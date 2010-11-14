@@ -7,8 +7,8 @@ X Adding a line item
 X - creates transactions between the users who owe and the user who is owed
 X See every users in a group's current balance
 X Show easiest way to settle
+X Access groups with nice urls (/sanchez instead of /2)
 See details for each transaction (grid view)
-Access groups with nice urls (/sanchez instead of /2)
 
 Member filter transactions for just a given user
 Mark a transaction as deleted so it doesn't contribute to balance calculation but still shows up

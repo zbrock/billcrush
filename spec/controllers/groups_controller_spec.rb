@@ -4,10 +4,24 @@ describe GroupsController do
   render_views
 
   describe "#show" do
-    before(:each) do
-      get :show, :id => Factory(:group)
+    context "with a group name" do
+      it "routes to the correct group" do
+        group = Factory(:group, :name => "foobar")
+        get :show, :name => "foobar"
+        assigns[:group].should == group
+      end
+
+      it "throws a 404 if the group can't be found" do
+        expect{ get :show, :name => "jibberjabber" }.to raise_error(ActiveRecord::RecordNotFound)
+      end
     end
-    it { should assign_to(:new_member) }
+
+    context "with a numeric id" do
+      before(:each) do
+        get :show, :id => Factory(:group)
+      end
+      it { should assign_to(:new_member) }
+    end
   end
 
   describe "#create" do

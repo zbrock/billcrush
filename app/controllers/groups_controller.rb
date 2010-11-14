@@ -18,7 +18,7 @@ class GroupsController < ApplicationController
   end
 
   def show
-    @group = Group.find(params[:id])
+    load_group
     @members = @group.members
     @transactions = @group.transactions.scoped_by_active(true)
     @new_member = @group.members.build

@@ -23,6 +23,10 @@ class Group < ActiveRecord::Base
     settlement
   end
 
+  def to_param
+    canonicalized_name
+  end
+
   private
   def canonicalize_name
     self.canonicalized_name = name.parameterize
