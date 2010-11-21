@@ -4,5 +4,4 @@ class Credit < ActiveRecord::Base
   belongs_to :member, :inverse_of => :credits
   belongs_to :transaction
   scope :active, where(:active => true)
-
 end

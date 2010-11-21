@@ -3,11 +3,11 @@
 <div id=page>
   <h1>billcrush</h1>
   <h2 style=display:inline-block;margin-left:12px><%= @group.name %></h2>
-  <%= form_for [@group, @new_member] do |f| %>
+  <!-- <%= form_for [@group, @new_member] do |f| %>
     <%= f.label(:name) %>
     <%= f.text_field(:name) %>
     <%= f.submit %>
-  <% end %>
+  <% end %> -->
   <table><tr>
     <td id=trans>
       <%= form_for [@group, @new_transaction] do |tf| %>
@@ -29,36 +29,34 @@
       </table>
       <div style=float:left;margin-left:24px>
         <p>Split between
-        <table>
-          
-          <!-- <% @members.each do |member| %>
-                      <label for="transaction_<%= member.to_param %>_amount"><%= member.name %></label>
-                      <input type="hidden" name="transaction[members][][id]" value="<%= member.to_param %>" />
-                      <input id="transaction_<%= member.to_param %>_amount" name="transaction[members][][amount]" size="6" type="text" />
-                    <% end %> -->
-          <% @members.each_with_index do |member, i| %>
+        <table id=split>
+          <% @members.each do |member| %>
             <tr>
-              <td><input type=checkbox id=split<%= i %>><label for=split<%= i %>> <%= member.name %></label> &nbsp;
-              <td>$ <input size=6 type=text class=auto>
+              <td><input type=checkbox checked=true id=split<%= member.to_param %>><%= label_tag "split#{member.to_param}", ' ' + member.name %> &nbsp;
+              <td>$ <%= text_field_tag "transaction[members][#{member.to_param}]", '', {:size => 6, :class => 'auto'} %>
           <% end %>
         </table>
       </div>
       <p style=clear:both>
-      <%= tf.submit('New transaction', {:class => 'primary', :style => 'margin:12px 0 0'}) %>
+      <%= tf.submit('Add transaction', {:class => 'primary', :style => 'margin:12px 0 0'}) %>
     <% end %>
     <td style=width:12px>
     <td id=settle>
+      <% members_by_balance = @members.sort_by(&:balance) %>
       <div style=float:left>
         <h3>Owed</h3>
         <ul>
-          <li>Brian: $45.16
+          <% members_by_balance.reverse.find_all{|m| m.balance > 0}.each do |member| %>
+            <li><%= "#{member.name}: #{money(member.balance)}" %>
+          <% end %>
         </ul>
       </div>
       <div style=float:left;margin-left:24px>
         <h3>Owes</h3>
         <ul>
-          <li>Nate: -$31.83
-          <li>Zach: -$13.33
+          <% members_by_balance.find_all{|m| m.balance < 0}.each do |member| %>
+            <li><%= "#{member.name}: #{money(member.balance)}" %>
+          <% end %>
         </ul>
       </div>
       <h3 style=clear:both;padding-top:12px>Settle</h3>
@@ -74,12 +72,11 @@
               <%= f.submit "Settle" %>
           <% end %>
         <% end %>
-        <li><a href=#>Settle all</a>
+        <li><a href="javascript:return false">Settle all</a>
       </ul>
   </table>
   <div id=hist>
-    <h3>Transactions</h3>
-    <table>
+    <table id=hist_table>
       <tr>
         <th>Date
         <th>Description
@@ -89,30 +86,34 @@
         <% end %>
       <% @transactions.each do |transaction| %>
         <tr class=t>
-          <td>6/11/10
+          <td>
           <td><%= transaction.description %>
-          <td><%= money(transaction.amount) %>
-          <!-- <td><%= transaction.credits.first.member.name %> -->
+          <td><%= money_no_unit(transaction.amount) %>
           <% @group.members.each do |member| %>
-            <td><div class=eq><%= money(member.credits_for_transaction(transaction)) %>
-              <p><%= money(member.debits_for_transaction(transaction)) %><hr></div>
+            <td>
+            <%
+              credits = member.credits_for_transaction(transaction)
+              debits = member.debits_for_transaction(transaction)
+              next if credits == 0 and debits == 0
+            %>
+            <div class=eq><%= money_no_unit(credits) %>
+              <p><%= money_no_unit(-debits) %><hr></div>
+              <%= money_no_unit(credits - debits) %>
           <% end %>
-          <td><ul><li><a href=#>Duplicate</a><li><a href=#>Edit</a><li><%= link_to "Delete!", group_transaction_url(@group, transaction), {:method => :delete, :confirm => "Are you sure you want to delete this transaction?"} %>
+          <td><ul>
+            <li><a href="javascript:return false">Duplicate</a>
+            <li><a href="javascript:return false">Edit</a>
+            <li><%= link_to "Delete!", group_transaction_url(@group, transaction), {:method => :delete, :confirm => "Are you sure you want to delete this transaction?"} %>
         </tr>
       <% end %>
-      <tr class=t>
-        <td>6/11/10
-        <td>Thai dinner
-        <td>37.00
-        <td><div class=eq>37.00<p>-18.50<hr></div>18.50
+      <tr class=b>
         <td>
+        <td>Total
+        <td><%= money(@transactions.sum(:amount)) %>
+        <% @group.members.each do |member|%>
+          <td><%= money(member.balance) %>
+        <% end %>
         <td>
-        <td><div class=eq>0.00<p>-18.50<hr></div>-18.50
-        <td>
-        <td><ul><li><a href=#>Duplicate</a><li><a href=#>Edit</a><li><a href=#>Delete</a>
-      <tr class=t><td>6/11/10<td>Zadin<td>119.85<td>-14.00<td>-23.00<td><td>-27.00<td>64.00<td><ul><li><a href=#>Duplicate</a><li><a href=#>Edit</a><li><a href=#>Delete</a>
-      <tr class=t><td>6/11/10<td>Poker dinner<td>40.00<td>26.66<td><td><td>-13.33<td>-13.33<td><ul><li><a href=#>Duplicate</a><li><a href=#>Edit</a><li><a href=#>Delete</a>
-      <tr class=b><td><td>Total<td>$77.00<td>$45.16<td><td><td>-$31.83<td>-$13.33<td>
     </table>
   </div>
 </div>
@@ -120,41 +121,22 @@
 <div id=foot>
 </div>
 
-<script src=jquery.js></script>
-<script src=jquery-ui.js></script>
+<script src=https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js></script>
+<script src=https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.6/jquery-ui.min.js></script>
 <script>
 $(function() {
   $.datepicker.setDefaults({showAnim:'',prevText:'Previous'});
   $('#date').datepicker().datepicker('widget').css('display', 'none');
   $('#date').datepicker('setDate', new Date);
+  
+  var hide_rows = function() {
+    $('#hist_table tr').removeClass('s');
+  };
+  document.body.onclick = hide_rows;
+  $('.t').click(function(e) {
+    hide_rows();
+    $(this).addClass('s');
+    e.stopPropagation();
+  });
 });
 </script>
-
-<!--
-<h3>Members</h3>
-<ul>
-<% @members.each do |member| %>
-  <li><%= member.name %> - <%= money(member.balance) %></li>
-<% end %>
-</ul>
-
-<%= form_for [@group, @new_member] do |f| %>
-  <%= f.label(:name) %>
-  <%= f.text_field(:name) %>
-  <%= f.submit %>
-<% end %>
-
-<%= form_for [@group, @new_transaction] do |tf| %>
-  <%= tf.label :payer, "Paid by" %>
-  <%= collection_select(:transaction, :payer, @group.members, :id, :name) %>
-  <%= tf.label :description %>
-  <%= tf.text_field :description %>
-  <%= tf.label :amount, "Total amount" %>
-  <%= tf.text_field :amount %>
-  <% @members.each do |member| %>
-     <%= label_tag "transaction_members_#{member.to_param}", member.name %>
-     <%= text_field_tag "transaction[members][#{member.to_param}]", '', {:size => 6} %>
-  <% end %>
-  <%= tf.submit %>
-<% end %>
--->

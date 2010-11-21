@@ -12,4 +12,8 @@ class Member < ActiveRecord::Base
   def debits_for_transaction(transaction)
     transaction.debits.scoped_by_member_id(self).sum(:amount_cents)
   end
+  
+  def credits_for_transaction(transaction)
+    transaction.credits.scoped_by_member_id(self).sum(:amount_cents)
+  end
 end

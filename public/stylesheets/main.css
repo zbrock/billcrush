@@ -234,6 +234,10 @@ hr{
   vertical-align:top;
   background:#E6E8E0;
 }
+.s:hover{
+  background:#E6E8E0;
+  cursor:default;
+}
 #hist .s td{
   padding:9px 12px 6px;
 }
