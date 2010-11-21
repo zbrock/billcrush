@@ -54,9 +54,8 @@
   <%= tf.label :amount, "Total amount" %>
   <%= tf.text_field :amount %>
   <% @members.each do |member| %>
-    <label for="transaction_<%= member.to_param %>_amount"><%= member.name %></label>
-    <input type="hidden" name="transaction[members][][id]" value="<%= member.to_param %>" />
-    <input id="transaction_<%= member.to_param %>_amount" name="transaction[members][][amount]" size="6" type="text" />
+     <%= label_tag "transaction_members_#{member.to_param}", member.name %>
+     <%= text_field_tag "transaction[members][#{member.to_param}]", '', {:size => 6} %>
   <% end %>
   <%= tf.submit %>
 <% end %>

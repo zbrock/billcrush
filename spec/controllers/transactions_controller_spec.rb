@@ -14,9 +14,7 @@ describe TransactionsController do
                      {:description => "stuff and puff",
                       :amount =>"30",
                       :payer => @member_one.to_param,
-                      :members =>
-                        [{:amount=>"20", :id => @member_one.to_param},
-                         {:amount=>"10", :id => @member_two.to_param}]
+                      :members => {@member_one.to_param => "20", @member_two.to_param => "10" }
                      }}
       end
 
@@ -53,7 +51,7 @@ describe TransactionsController do
                    :transaction =>
                      {:amount => "300",
                       :payer => @member_one.to_param,
-                      :members =>[{:amount=>"20", :id => @member_one.to_param}]
+                      :members => {@member_one.to_param=>"20"}
                      }}
       end
 
