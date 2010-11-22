@@ -8,9 +8,9 @@
     <%= f.text_field(:name) %>
     <%= f.submit %>
   <% end %> -->
+  <%= form_for [@group, @new_transaction] do |tf| %>
   <table><tr>
-    <td id=trans>
-      <%= form_for [@group, @new_transaction] do |tf| %>
+    <td id=trans style=padding-bottom:67px>
       <h3>New transaction</h3>
       <table style=float:left>
         <tr>
@@ -37,9 +37,6 @@
           <% end %>
         </table>
       </div>
-      <p style=clear:both>
-      <%= tf.submit('Add transaction', {:class => 'primary', :style => 'margin:12px 0 0'}) %>
-    <% end %>
     <td style=width:12px>
     <td id=settle>
       <% members_by_balance = @members.sort_by(&:balance) %>
@@ -75,6 +72,9 @@
         <li><a href="javascript:return false">Settle all</a>
       </ul>
   </table>
+  <p style="position:absolute;margin:-55px 0 0 24px">
+    <%= tf.submit('Add transaction', {:class => 'primary'}) %>
+  <% end %>
   <div id=hist>
     <table id=hist_table>
       <tr>
@@ -263,7 +263,6 @@ $(function() {
       });
     }
   };
-  
   var splitRows = $('#split tr'),
       splitItems = _.map(splitRows, function(row) { return new SplitItem($(row)) }),
       amount = $('#transaction_amount');
