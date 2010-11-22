@@ -209,7 +209,8 @@ $(function() {
           var val = Math.floor(parseFloat(this.text.val()) * 100);
           return (isNaN(val)) ? '' : val;
         case 1:
-          var val = money_no_unit(parseInt(arguments[0]) / 100);
+          var val = parseInt(arguments[0]) / 100;
+          val = (val < 0) ? '' : money_no_unit(val);
           if (val === '') {
             this.text.attr('disabled', 'disabled').addClass('auto');
           } else {
