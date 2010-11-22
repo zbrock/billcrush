@@ -105,8 +105,14 @@ input[type="checkbox"]{
   position:fixed;
   top:-99px;
 }
+input[type="checkbox"]+label{
+  line-height:17px;
+}
 input[type="checkbox"]+label:before{
   vertical-align:-2px;
+  width:14px;
+  height:15px;
+  display:inline-block;
  content:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAPCAYAAADUFP50AAABOklEQVR42qWSX0uDYByF+/4foC5rfwqqOaMiKohobUPIoNHWRRdFkbZXp5Yz1N2c3vOD5StUF3XxoJzznBdFVwD8if8Pe/1j2AdbsOwWunttE2bS0TGGHJ3g4vIUSvnIshTZRx1m7OjQ/Rra+5uYKg+LRaEp5VqWgpmJo91qaNlNJG8R8jzTp79jPk9MmLETR7vVsNNtIooV0jRGkoSaAHEs8J4ZO3Ho1oZB+EpBy+o72NGpD3etBlTo8fRfhoE42q2GO9YG/OkzIko/wI4O3WrYWcfD4z18/wkq8BDOfBNm7MSha7xjA7fja4wnI80NJncjE2bsxNFuNewPznB41IHj9OC6A1y5QxNm7MTRbjUMZi8YOufY1o/RbK9pVtFoCbxnxk4cusuhEEa+fOiizI2/hRTMpKOz9D8B18fFgSF4YAAAAAAASUVORK5CYII=);
 }
 input[type="checkbox"]:focus+label:before{
