@@ -227,7 +227,7 @@ $(function() {
     } else {
       var total = Math.floor(amount.val() * 100),
           manualTotal = _.reduce(splitItems, function(memo, item) {
-              return memo + ((!item.auto()) ? item.val() : 0);
+              return memo + ((!item.auto() && item.val()) ? item.val() : 0);
             }, 0),
           autoItems = _.select(splitItems, function(item) {
             return item.on() && item.auto();
