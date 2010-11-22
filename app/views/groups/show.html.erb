@@ -121,22 +121,125 @@
 <div id=foot>
 </div>
 
-<script src=https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js></script>
-<script src=https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.6/jquery-ui.min.js></script>
 <script>
 $(function() {
+  var i;
+  
   $.datepicker.setDefaults({showAnim:'',prevText:'Previous'});
   $('#date').datepicker().datepicker('widget').css('display', 'none');
   $('#date').datepicker('setDate', new Date);
   
-  var hide_rows = function() {
+  var hideRows = function() {
     $('#hist_table tr').removeClass('s');
   };
-  document.body.onclick = hide_rows;
+  document.body.onclick = hideRows;
   $('.t').click(function(e) {
-    hide_rows();
+    hideRows();
     $(this).addClass('s');
     e.stopPropagation();
   });
+  
+  var splitCheckChange = function() {
+    if (!this.on()) {
+      this.text.val('').addClass('auto');
+    }
+    updateSplit();
+  };
+  var splitTextFocus = function() {
+    if (this.text.hasClass('auto')) {
+      this.focusVal = this.val();
+      this.text.removeClass('auto');
+    } else {
+      this.focusVal = null;
+    }
+  };
+  var splitTextBlur = function() {
+    var val = this.val();
+    if (val == this.focusVal || this.val() == '') {
+      this.text.addClass('auto');
+    }
+  };
+  var money_no_unit = function(num) {
+    return parseFloat(num).toFixed(2);
+  }
+  var moneyTextChange = function() {
+    var text = $(this);
+    text.val(money_no_unit(text.val()));
+  }
+  var SplitItem = function(row) {
+    var that = this,
+        check = row.find('[type="checkbox"]'),
+        text = row.find('[type="text"]');
+    this.check = check;
+    this.text = text;
+    this.focusVal = null;
+    var wrapEvent = function(f) {
+      return function() {
+        f.apply(that, arguments);
+      }
+    };
+    check.change(wrapEvent(splitCheckChange));
+    text.focus(wrapEvent(splitTextFocus));
+    text.blur(wrapEvent(splitTextBlur));
+    text.keyup(updateSplit);
+    text.change(moneyTextChange);
+  };
+  SplitItem.prototype = {
+    on: function() {
+      switch (arguments.length) {
+        case 0:
+          return this.check.is(':checked');
+      }
+    },
+    auto: function() {
+      switch (arguments.length) {
+        case 0:
+          return this.text.is('.auto');
+      }
+    },
+    val: function() {
+      switch (arguments.length) {
+        case 0:
+          var val = this.text.val();
+          return (val == '') ? '' : Math.floor(val * 100);
+        case 1:
+          var val = arguments[0];
+          if (_.isNumber(val)) {
+            this.text.val(money_no_unit(Math.floor(val) / 100));
+          } else {
+            this.text.val(val)
+          }
+          return;
+      }
+    }
+  };
+  var updateSplit = function() {
+    if (amount.val() == '') {
+      _.each(splitItems, function(item) { item.val('') });
+    } else {
+      var total = Math.floor(amount.val() * 100),
+          manualTotal = _.reduce(splitItems, function(memo, item) {
+              return memo + ((!item.auto()) ? item.val() : 0);
+            }, 0),
+          autoItems = _.select(splitItems, function(item) {
+            return item.on() && item.auto();
+          }),
+          splitAmount = total - manualTotal,
+          autoItemsLen = autoItems.length,
+          split = Math.floor(splitAmount / autoItemsLen),
+          remain = splitAmount % split;
+      autoItems.sort(function() { return 0.5 - Math.random() });
+      _.each(autoItems, function(item, i) {
+        item.val(split + ((remain-- > 0) ? 1 : 0));
+      });
+    }
+  };
+  
+  var splitRows = $('#split tr'),
+      splitItems = _.map(splitRows, function(row) { return new SplitItem($(row)) }),
+      amount = $('#transaction_amount');
+  amount.keyup(updateSplit);
+  amount.change(moneyTextChange);
+
 });
 </script>
