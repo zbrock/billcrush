@@ -141,7 +141,7 @@ $(function() {
   
   var splitCheckChange = function() {
     if (!this.on()) {
-      this.text.val('').addClass('auto');
+      this.val('');
     }
     updateSplit();
   };
@@ -155,14 +155,20 @@ $(function() {
   };
   var splitTextBlur = function() {
     var val = this.val();
-    if (val == this.focusVal || this.val() == '') {
+    if (val === this.focusVal || val === '') {
       this.text.addClass('auto');
+      updateSplit();
     }
   };
   var money_no_unit = function(num) {
-    return parseFloat(num).toFixed(2);
+    num = parseFloat(num);
+    if (isNaN(num)) {
+      return '';
+    } else {
+      return num.toFixed(2);
+    }
   }
-  var moneyTextChange = function() {
+  var moneyTextBlur = function() {
     var text = $(this);
     text.val(money_no_unit(text.val()));
   }
@@ -182,7 +188,7 @@ $(function() {
     text.focus(wrapEvent(splitTextFocus));
     text.blur(wrapEvent(splitTextBlur));
     text.keyup(updateSplit);
-    text.change(moneyTextChange);
+    text.blur(moneyTextBlur);
   };
   SplitItem.prototype = {
     on: function() {
@@ -200,21 +206,22 @@ $(function() {
     val: function() {
       switch (arguments.length) {
         case 0:
-          var val = this.text.val();
-          return (val == '') ? '' : Math.floor(val * 100);
+          var val = Math.floor(parseFloat(this.text.val()) * 100);
+          return (isNaN(val)) ? '' : val;
         case 1:
-          var val = arguments[0];
-          if (_.isNumber(val)) {
-            this.text.val(money_no_unit(Math.floor(val) / 100));
+          var val = money_no_unit(parseInt(arguments[0]) / 100);
+          if (val === '') {
+            this.text.attr('disabled', 'disabled').addClass('auto');
           } else {
-            this.text.val(val)
+            this.text.removeAttr('disabled');
           }
+          this.text.val(val);
           return;
       }
     }
   };
   var updateSplit = function() {
-    if (amount.val() == '') {
+    if (amount.val() === '') {
       _.each(splitItems, function(item) { item.val('') });
     } else {
       var total = Math.floor(amount.val() * 100),
@@ -239,7 +246,7 @@ $(function() {
       splitItems = _.map(splitRows, function(row) { return new SplitItem($(row)) }),
       amount = $('#transaction_amount');
   amount.keyup(updateSplit);
-  amount.change(moneyTextChange);
-
+  amount.blur(moneyTextBlur);
+  updateSplit();
 });
 </script>

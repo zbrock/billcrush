@@ -8,7 +8,8 @@ body,fieldset,form,h1,h2,h3,h4,input,select,li,ol,p,td,textarea,button,th{
 }
 body,input,select,textarea,button{
   color:#1C140D;
-  text-shadow:#fff 0 1px 1px
+  text-shadow:#fff 0 1px 1px;
+  opacity:1;
 }
 ul{
   margin:0
