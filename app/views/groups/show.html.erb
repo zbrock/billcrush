@@ -147,7 +147,7 @@ $(function() {
   };
   var splitTextFocus = function() {
     if (this.text.hasClass('auto')) {
-      this.focusVal = this.val();
+      this.typeVal = this.focusVal = this.val();
       this.text.removeClass('auto');
     } else {
       this.focusVal = null;
@@ -155,11 +155,22 @@ $(function() {
   };
   var splitTextBlur = function() {
     var val = this.val();
-    if (val === this.focusVal || val === '') {
+    if (val === this.focusVal) {
+      this.text.addClass('auto');
+    } else if (val === '') {
       this.text.addClass('auto');
       updateSplit();
+    } else if (val == 0) {
+      this.on(false);
     }
   };
+  var splitTextKeyup = function() {
+    var val = this.val();
+    if (val != this.typeVal) {
+      this.typeVal = val;
+      updateSplit();
+    }
+  }
   var money_no_unit = function(num) {
     num = parseFloat(num);
     if (isNaN(num)) {
@@ -179,6 +190,7 @@ $(function() {
     this.check = check;
     this.text = text;
     this.focusVal = null;
+    this.typeVal = null;
     var wrapEvent = function(f) {
       return function() {
         f.apply(that, arguments);
@@ -187,7 +199,7 @@ $(function() {
     check.change(wrapEvent(splitCheckChange));
     text.focus(wrapEvent(splitTextFocus));
     text.blur(wrapEvent(splitTextBlur));
-    text.keyup(updateSplit);
+    text.keyup(wrapEvent(splitTextKeyup));
     text.blur(moneyTextBlur);
   };
   SplitItem.prototype = {
@@ -195,6 +207,15 @@ $(function() {
       switch (arguments.length) {
         case 0:
           return this.check.is(':checked');
+        case 1:
+          if (arguments[0]) {
+            this.check.attr('checked','checked');
+          } else {
+            this.check.removeAttr('checked');
+            this.val('');
+          }
+          updateSplit();
+          return;
       }
     },
     auto: function() {
