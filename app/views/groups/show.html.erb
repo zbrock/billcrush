@@ -29,13 +29,15 @@
       </table>
       <div style=float:left;margin-left:24px>
         <p>Split between
-        <table id=split>
-          <% @members.each do |member| %>
-            <tr>
-              <td><input type=checkbox checked=true id=split<%= member.to_param %>><%= label_tag "split#{member.to_param}", ' ' + member.name %> &nbsp;
-              <td>$ <%= text_field_tag "transaction[members][#{member.to_param}]", '', {:size => 6, :class => 'auto'} %>
-          <% end %>
-        </table>
+        <div class=no_select>
+          <table id=split>
+            <% @members.each do |member| %>
+              <tr>
+                <td><input type=checkbox checked=true id=split<%= member.to_param %>><%= label_tag "split#{member.to_param}", ' ' + member.name %> &nbsp;
+                <td>$ <%= text_field_tag "transaction[members][#{member.to_param}]", '', {:size => 6, :class => 'auto'} %>
+            <% end %>
+          </table>
+        </div>
       </div>
     <td style=width:12px>
     <td id=settle>

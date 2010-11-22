@@ -177,6 +177,11 @@ h2{
   -webkit-box-shadow:rgba(34, 36, 29, .5) 0 1px 3px inset,
     rgba(255, 255, 255, .9) 0 1px 1px;
 }
+.no_select{
+  -webkit-user-select:none;
+  user-select:none;
+  cursor:default;
+}
 ul{
   list-style:none;
   padding:0;
