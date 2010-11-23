@@ -11,7 +11,7 @@
   <%= form_for [@group, @new_transaction] do |tf| %>
   <table><tr>
     <td id=trans style=padding-bottom:67px>
-      <h3>New transaction</h3>
+      <h3 id=trans_title>New transaction</h3>
       <table style=float:left>
         <tr>
           <td>
@@ -75,7 +75,7 @@
       </ul>
   </table>
   <p style="position:absolute;margin:-55px 0 0 24px">
-    <%= tf.submit('Add transaction', {:class => 'primary'}) %>
+    <%= tf.submit('Add transaction', {:class => 'primary'}) %><button style=margin-left:12px type=reset>Cancel</button>
   <% end %>
   <div id=hist>
     <table id=hist_table>
@@ -127,9 +127,12 @@
 $(function() {
   var i;
   
+  var setDate = function(date) {
+    $('#date').datepicker('setDate', date || new Date);
+  }
   $.datepicker.setDefaults({showAnim:'',prevText:'Previous'});
   $('#date').datepicker().datepicker('widget').css('display', 'none');
-  $('#date').datepicker('setDate', new Date);
+  setDate();
   
   var hideRows = function() {
     $('#hist_table tr').removeClass('s');
@@ -148,9 +151,9 @@ $(function() {
     updateSplit();
   };
   var splitTextFocus = function() {
-    if (this.text.hasClass('auto')) {
+    if (this.auto()) {
       this.typeVal = this.focusVal = this.val();
-      this.text.removeClass('auto');
+      this.auto(false);
     } else {
       this.focusVal = null;
     }
@@ -158,9 +161,9 @@ $(function() {
   var splitTextBlur = function() {
     var val = this.val();
     if (val === this.focusVal) {
-      this.text.addClass('auto');
+      this.auto(true);
     } else if (val === '') {
-      this.text.addClass('auto');
+      this.auto(true);
       updateSplit();
     } else if (val == 0) {
       this.on(false);
@@ -224,6 +227,13 @@ $(function() {
       switch (arguments.length) {
         case 0:
           return this.text.is('.auto');
+        case 1:
+          if (arguments[0]) {
+            this.text.addClass('auto');
+          } else {
+            this.text.removeClass('auto');
+          }
+          return;
       }
     },
     val: function() {
@@ -235,7 +245,8 @@ $(function() {
           var val = parseInt(arguments[0]) / 100;
           val = (val < 0) ? '' : money_no_unit(val);
           if (val === '') {
-            this.text.attr('disabled', 'disabled').addClass('auto');
+            this.text.attr('disabled', 'disabled');
+            this.auto(true);
           } else {
             this.text.removeAttr('disabled');
           }
@@ -271,5 +282,15 @@ $(function() {
   amount.keyup(updateSplit);
   amount.blur(moneyTextBlur);
   updateSplit();
+  
+  var newTransaction = function() {
+    setDate();
+    updateSplit();
+    $('#trans_title').html('New transaction');
+    $('#transaction_submit').val('Add transaction');
+  }
+  $('#new_transaction').bind('reset', function() {
+    setTimeout(newTransaction, 1);
+  });
 });
 </script>
