@@ -1,18 +1,18 @@
 <title>Billcrush - <%= @group.name %></title>
 <div style=background:#F1F2ED;min-width:824px>
 <div id=page>
-  <h1>billcrush</h1>
-  <h2 style=display:inline-block;margin-left:12px><%= @group.name %></h2>
+  <div style=clear:both>
+    <h1>billcrush</h1><h2 style=display:inline-block;margin-left:12px><%= @group.name %></h2>
+  </div>
   <!-- <%= form_for [@group, @new_member] do |f| %>
     <%= f.label(:name) %>
     <%= f.text_field(:name) %>
     <%= f.submit %>
   <% end %> -->
-  <%= form_for [@group, @new_transaction] do |tf| %>
-  <table><tr>
-    <td id=trans style=padding-bottom:67px>
-      <h3 id=trans_title>New transaction</h3>
-      <table style=float:left>
+  <div id=trans>
+    <%= form_for [@group, @new_transaction] do |tf| %>
+      <h3>New transaction</h3>
+      <table style="float:left;margin:0 0 20px">
         <tr>
           <td>
             <p><%= tf.label :description %></p>
@@ -27,20 +27,28 @@
             &nbsp;paid&nbsp; $ <%= tf.text_field :amount, {:size => 6} %>
             </div>
       </table>
-      <div style=float:left;margin-left:24px>
+      <div style="float:left;margin:0 0 12px 24px">
         <p>Split between
         <div class=no_select>
           <table id=split>
             <% @members.each do |member| %>
               <tr>
-                <td><input type=checkbox checked=true id=split<%= member.to_param %>><%= label_tag "split#{member.to_param}", ' ' + member.name %> &nbsp;
+                <td><input type=checkbox checked id=split<%= member.to_param %>><%= label_tag "split#{member.to_param}", ' ' + member.name %> &nbsp;
                 <td>$ <%= text_field_tag "transaction[members][#{member.to_param}]", '', {:size => 6, :class => 'auto'} %>
             <% end %>
           </table>
         </div>
       </div>
-    <td style=width:12px>
-    <td id=settle>
+      <p style=clear:both;height:31px>
+      <p style=position:absolute;bottom:24px>
+        <%= tf.submit('Add transaction', {:class => 'primary'}) %><button style=margin-left:12px type=reset>Cancel</button>
+    <% end %>
+  </div>
+  <div id=settle>
+    <% if @group.best_way_to_settle.length == 0 %>
+      <h3>All debts are settled</h3>
+      <p style=max-width:250px>Everyone in the group is even. When you add new transactions, the best way to settle will be listed here. 
+    <% else %>
       <% members_by_balance = @members.sort_by(&:balance) %>
       <div style=float:left>
         <h3>Owed</h3>
@@ -73,10 +81,8 @@
         <% end %>
         <li><a href="javascript:return false">Settle all</a>
       </ul>
-  </table>
-  <p style="position:absolute;margin:-55px 0 0 24px">
-    <%= tf.submit('Add transaction', {:class => 'primary'}) %><button style=margin-left:12px type=reset>Cancel</button>
-  <% end %>
+    <% end %>
+  </div>
   <div id=hist>
     <table id=hist_table>
       <tr>
@@ -86,7 +92,7 @@
         <% @group.members.each do |member|%>
           <th><%= member.name %>
         <% end %>
-      <% @transactions.each do |transaction| %>
+      <% @transactions.each_with_index do |transaction, i| %>
         <tr class=t>
           <td>
           <td><%= transaction.description %>
@@ -98,13 +104,12 @@
               debits = member.debits_for_transaction(transaction)
               next if credits == 0 and debits == 0
             %>
-            <div class=eq><%= money_no_unit(credits) %>
-              <p><%= money_no_unit(-debits) %><hr></div>
+            <div class=eq><p class=credit><%= money_no_unit(credits) %>
+              <p class=debit><%= money_no_unit(-debits) %><hr></div>
               <%= money_no_unit(credits - debits) %>
           <% end %>
           <td><ul>
-            <li><a href="javascript:return false">Duplicate</a>
-            <li><a href="javascript:return false">Edit</a>
+            <li><a href="javascript:bc.duplicateTransaction(<%= i %>)">Duplicate</a>
             <li><%= link_to "Delete!", group_transaction_url(@group, transaction), {:method => :delete, :confirm => "Are you sure you want to delete this transaction?"} %>
         </tr>
       <% end %>
@@ -124,12 +129,16 @@
 </div>
 
 <script>
+var bc = {};
+
 $(function() {
-  var i;
+  var maxColHeight = Math.max($('#trans').height(),$('#settle').height());
+  $('#trans,#settle').height(maxColHeight);
+  console.log(maxColHeight);
   
   var setDate = function(date) {
     $('#date').datepicker('setDate', date || new Date);
-  }
+  };
   $.datepicker.setDefaults({showAnim:'',prevText:'Previous'});
   $('#date').datepicker().datepicker('widget').css('display', 'none');
   setDate();
@@ -162,11 +171,9 @@ $(function() {
     var val = this.val();
     if (val === this.focusVal) {
       this.auto(true);
-    } else if (val === '') {
-      this.auto(true);
-      updateSplit();
     } else if (val == 0) {
       this.on(false);
+      updateSplit();
     }
   };
   var splitTextKeyup = function() {
@@ -175,7 +182,7 @@ $(function() {
       this.typeVal = val;
       updateSplit();
     }
-  }
+  };
   var money_no_unit = function(num) {
     num = parseFloat(num);
     if (isNaN(num)) {
@@ -183,11 +190,11 @@ $(function() {
     } else {
       return num.toFixed(2);
     }
-  }
+  };
   var moneyTextBlur = function() {
     var text = $(this);
     text.val(money_no_unit(text.val()));
-  }
+  };
   var SplitItem = function(row) {
     var that = this,
         check = row.find('[type="checkbox"]'),
@@ -219,8 +226,7 @@ $(function() {
             this.check.removeAttr('checked');
             this.val('');
           }
-          updateSplit();
-          return;
+          return this;
       }
     },
     auto: function() {
@@ -233,7 +239,7 @@ $(function() {
           } else {
             this.text.removeClass('auto');
           }
-          return;
+          return this;
       }
     },
     val: function() {
@@ -249,9 +255,10 @@ $(function() {
             this.auto(true);
           } else {
             this.text.removeAttr('disabled');
+            this.on(true);
           }
           this.text.val(val);
-          return;
+          return this;
       }
     }
   };
@@ -278,19 +285,48 @@ $(function() {
   };
   var splitRows = $('#split tr'),
       splitItems = _.map(splitRows, function(row) { return new SplitItem($(row)) }),
-      amount = $('#transaction_amount');
+      amount = $('#transaction_amount'),
+      payer = $('#transaction_payer'),
+      description = $('#transaction_description')
   amount.keyup(updateSplit);
   amount.blur(moneyTextBlur);
   updateSplit();
   
   var newTransaction = function() {
     setDate();
-    updateSplit();
-    $('#trans_title').html('New transaction');
-    $('#transaction_submit').val('Add transaction');
+    _.each(splitItems, function(item) { item.on('true').val('') });
   }
   $('#new_transaction').bind('reset', function() {
     setTimeout(newTransaction, 1);
   });
+  <%
+    member_ids = Hash.new
+    @group.members.map(&:id).each_with_index{ |m,i| member_ids[m] = i };
+  %>
+  var memberIds = <%=raw member_ids.to_json %>;
+  var transactionData = <%=raw @transactions.to_json %>;
+  var duplicateTransaction = function(index) {
+    var transaction = transactionData[index],
+        evenSplit = transaction.amount / transaction.debits.length,
+        autoSplit = _.all(transaction.debits, function(debit) {
+          return evenSplit - 1 <= debit[1] && debit[1] <= evenSplit + 1
+        });
+    setDate();
+    _.each(splitItems, function(item) { item.on(false) });
+    _.each(transaction.debits, function(debit) {
+      var item = splitItems[memberIds[debit[0]]],
+          debitAmount = debit[1];
+      if (debitAmount != 0) {
+        item.auto(autoSplit).val(debitAmount);
+      }
+    });
+    // Assume exactly one credit per transaction
+    credit = transaction.credits[0];
+    payer.val(credit[0]);
+    amount.val(money_no_unit(credit[1] / 100));
+    description.val(transaction.description);
+  };
+  bc.duplicateTransaction = duplicateTransaction;
+  
 });
 </script>

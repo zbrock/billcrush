@@ -130,7 +130,7 @@ select{
   border:0;
   border-radius: 4px;
   padding:3px 22px 2px 5px;
-  margin:2px 0;
+  margin:2px 0 4px;
   -webkit-box-shadow: rgba(141, 145, 128, .7) 0 0 1px 1px inset,
     rgba(255, 255, 255, .33) 0 2px 2px 1px inset,
     rgba(230, 232, 224, .2) 0 18px inset,
@@ -175,7 +175,8 @@ h2{
   height:24px;
 }
 #trans,#settle{
-  vertical-align:top;
+  position:relative;
+  float:left;
   background:#E6E8E0;
   border-radius: 4px;
   padding:24px;
@@ -225,6 +226,7 @@ h1{
   display:none;
 }
 #hist .s td:last-child{
+  vertical-align:middle;
   display:table-cell;
 }
 hr{
@@ -254,10 +256,7 @@ hr{
   cursor:default;
 }
 #hist .s td{
-  padding:9px 12px 6px;
-}
-#hist ul{
-  margin:-2px 0;
+  padding:8px 12px;
 }
 .ui-widget{
   border-radius:3px;
@@ -272,6 +271,9 @@ hr{
   text-decoration:none;
   padding:2px 4px;
   display:block;
+}
+.ui-datepicker-calendar a:visited{
+  color:#0E8391;
 }
 .ui-datepicker-calendar{
   border-collapse:separate;

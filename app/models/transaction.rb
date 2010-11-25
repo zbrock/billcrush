@@ -22,4 +22,11 @@ class Transaction < ActiveRecord::Base
       credits.update_all({:active => false})
     end
   end
+  
+  def as_json(options={})
+    { :description => self.description,
+      :amount => self.amount,
+      :debits => self.debits.find_all{|m| m.amount_cents > 0},
+      :credits => self.credits.find_all{|m| m.amount_cents > 0} }
+  end
 end
