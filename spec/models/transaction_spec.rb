@@ -57,4 +57,22 @@ describe Transaction do
       transaction.credits.each{|debt| debt.should be_active}
     end
   end
+  describe "#mark_as_deleted!" do
+    it "marks the transaction and all debits and credits as inactive" do
+      transaction = Factory(:transaction, :amount => 1000, :active => true)
+      Factory(:debit, :amount_cents => 1000, :transaction => transaction, :active => true)
+      Factory(:credit, :amount_cents => 1000, :transaction => transaction, :active => true)
+      transaction.mark_as_deleted!
+      transaction.reload.should_not be_active
+      transaction.debits.each{|debt| debt.should_not be_active}
+      transaction.credits.each{|debt| debt.should_not be_active}
+    end
+
+    it "sets the deleted_at time" do
+      transaction = Factory(:transaction, :amount => 1000, :active => true)
+      transaction.deleted_at.should be_nil
+      transaction.mark_as_deleted!
+      transaction.deleted_at.should_not be_blank
+    end
+  end
 end

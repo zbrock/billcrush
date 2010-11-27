@@ -14,4 +14,12 @@ class Transaction < ActiveRecord::Base
       credits.update_all({:active => true})
     end
   end
+
+  def mark_as_deleted!
+    ActiveRecord::Base.transaction do
+      update_attributes(:active => false, :deleted_at => Time.now.utc)
+      debits.update_all({:active => false})
+      credits.update_all({:active => false})
+    end
+  end
 end
