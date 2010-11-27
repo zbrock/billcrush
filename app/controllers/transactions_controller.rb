@@ -7,7 +7,7 @@ class TransactionsController < ApplicationController
     amount = (params[:transaction][:amount].to_f * 100).to_i
     @transaction = @group.transactions.build(:description => params[:transaction][:description],
                                              :amount => amount,
-                                             :active => false)
+                                             :active => false, :settlement => params[:transaction][:settlement])
     if @transaction.save
       @transaction.credits.create!(:member => payer, :amount_cents => amount, :active => false)
       params[:transaction][:members].each_pair do |id, amount|

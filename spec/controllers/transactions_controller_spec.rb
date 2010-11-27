@@ -17,7 +17,14 @@ describe TransactionsController do
                         :members     => {@member_one.to_param => "20", @member_two.to_param => "10"}
                        }}
       end
-
+      context "when settlement is true" do
+        it "marks the resulting transaction as a settlement" do
+          @params[:transaction][:settlement] = "1"
+          post :create, @params
+          transaction = assigns[:transaction]
+          transaction.settlement.should be_true
+        end
+      end
       it "changes the transaction count by 1" do
         expect { post :create, @params }.to change(Transaction, :count).by(1)
       end

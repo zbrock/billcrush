@@ -19,7 +19,7 @@
     <th>Total</th>
   </tr>
 <% @transactions.each do |transaction| %>
-  <tr>
+  <tr class="<%= "settlement" if transaction.settlement? %>" >
     <%# cheating here by assuming only one payer %>
     <td><%= transaction.credits.first.member.name %></td>
     <td><%= transaction.description %></td>
@@ -35,7 +35,16 @@
 <h3>Best Way to Settle</h3>
 <ul>
 <% @group.best_way_to_settle.each do |settlement| %>
-  <li><%= settlement[:payer].name %> pays <%= settlement[:payee].name %> <%= money(settlement[:amount]) %></li>
+  <li>
+    <%= settlement[:payer].name %> pays <%= settlement[:payee].name %> <%= money(settlement[:amount]) %>
+    <%= form_for :transaction, :url => group_transactions_url(@group), :html => {:method => :post} do |f| %>
+        <%= f.hidden_field(:payer, :value => settlement[:payer].to_param) %>
+        <%= f.hidden_field(:settlement, :value => "1") %>
+        <%= f.hidden_field(:amount, :value => settlement[:amount].to_f / 100) %>
+        <%= hidden_field_tag "transaction[members][#{settlement[:payee].to_param}]", settlement[:amount].to_f / 100 %>
+        <%= f.submit "Settle" %>
+    <% end %>
+  </li>
 <% end %>
 </ul>
 
