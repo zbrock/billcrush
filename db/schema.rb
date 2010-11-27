@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101127020256) do
+ActiveRecord::Schema.define(:version => 20101127024307) do
 
   create_table "credits", :force => true do |t|
     t.integer  "member_id"
@@ -53,6 +53,7 @@ ActiveRecord::Schema.define(:version => 20101127020256) do
     t.integer  "amount"
     t.boolean  "active",      :default => false
     t.datetime "deleted_at"
+    t.boolean  "settlement",  :default => false
   end
 
 end
