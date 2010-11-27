@@ -1,21 +1,21 @@
 require 'spec_helper'
 
 describe TransactionsController do
+  before { @group = Factory(:group) }
   describe "#create" do
     before do
-      @group = Factory(:group)
       @member_one = Factory(:member, :group => @group)
       @member_two = Factory(:member, :group => @group)
     end
     context "with valid params" do
       before do
-        @params = {:group_id => @group.to_param,
+        @params = {:group_id    => @group.to_param,
                    :transaction =>
-                     {:description => "stuff and puff",
-                      :amount =>"30",
-                      :payer => @member_one.to_param,
-                      :members => {@member_one.to_param => "20", @member_two.to_param => "10" }
-                     }}
+                       {:description => "stuff and puff",
+                        :amount      =>"30",
+                        :payer       => @member_one.to_param,
+                        :members     => {@member_one.to_param => "20", @member_two.to_param => "10"}
+                       }}
       end
 
       it "changes the transaction count by 1" do
@@ -47,12 +47,12 @@ describe TransactionsController do
 
     context "with invalid params" do
       before do
-        @params = {:group_id => @group.to_param,
+        @params = {:group_id    => @group.to_param,
                    :transaction =>
-                     {:amount => "300",
-                      :payer => @member_one.to_param,
-                      :members => {@member_one.to_param=>"20"}
-                     }}
+                       {:amount  => "300",
+                        :payer   => @member_one.to_param,
+                        :members => {@member_one.to_param=>"20"}
+                       }}
       end
 
       it "changes the transaction count by 0" do
