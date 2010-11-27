@@ -28,9 +28,11 @@ describe Transaction do
       Factory(:debit, :amount_cents => 500, :transaction => transaction, :active => false)
       Factory(:credit, :amount_cents => 500, :transaction => transaction, :active => false)
       transaction.debits.each{|debt| debt.should_not be_active}
+      transaction.credits.each{|debt| debt.should_not be_active}
       transaction.validate_and_activate!.should be_false
       transaction.reload.should_not be_active
       transaction.debits.each{|debt| debt.should_not be_active}
+      transaction.credits.each{|debt| debt.should_not be_active}
     end
 
     it "is false if the associated debt amounts add up to zero but the debits don't add up to the amount cents" do
@@ -48,9 +50,11 @@ describe Transaction do
       Factory(:debit, :amount_cents => 1000, :transaction => transaction, :active => false)
       Factory(:credit, :amount_cents => 1000, :transaction => transaction, :active => false)
       transaction.debits.each{|debt| debt.should_not be_active}
+      transaction.credits.each{|debt| debt.should_not be_active}
       transaction.validate_and_activate!.should be_true
       transaction.reload.should be_active
       transaction.debits.each{|debt| debt.should be_active}
+      transaction.credits.each{|debt| debt.should be_active}
     end
   end
 end
