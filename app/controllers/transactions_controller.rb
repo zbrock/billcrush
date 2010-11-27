@@ -25,4 +25,15 @@ class TransactionsController < ApplicationController
     end
     redirect_to group_url(@group)
   end
+
+  def destroy
+    transaction = @group.transactions.find_by_id(params[:id])
+    if transaction
+      transaction.mark_as_deleted!
+      flash[:message] = "Transaction deleted!"
+    else
+      flash[:error] = "Error deleting transaction!"
+    end
+    redirect_to group_url(@group)
+  end
 end

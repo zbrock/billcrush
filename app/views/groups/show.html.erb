@@ -27,6 +27,7 @@
       <td><%= money(member.debits_for_transaction(transaction)) %></td>
     <% end %>
     <td><strong><%= money(transaction.amount) %></strong></td>
+    <td><%= link_to "Delete!", group_transaction_url(@group, transaction), {:method => :delete, :confirm => "Are you sure you want to delete this transaction?"} %></td>
   </tr>
 <% end %>
 </table>

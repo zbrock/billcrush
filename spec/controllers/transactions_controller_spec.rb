@@ -74,4 +74,27 @@ describe TransactionsController do
       end
     end
   end
+  describe "#destroy" do
+    before do
+      @transaction = Factory(:transaction, :group => @group, :active => true)
+      @params      = {:group_id => @group.to_param, :id => @transaction.to_param}
+    end
+    describe "with valid params" do
+      it "marks the transaction as inactive" do
+        delete :destroy, @params
+        @transaction.reload.active.should be_false
+        @transaction.deleted_at.should_not be_blank
+        response.should redirect_to(group_url(@group))
+        flash[:message].should_not be_blank
+      end
+    end
+    describe "with invalid params" do
+      it "flashes an error and redirects" do
+        @params.merge!(:id => "foobar")
+        delete :destroy, @params
+        response.should redirect_to(group_url(@group))
+        flash[:error].should_not be_blank
+      end
+    end
+  end
 end

@@ -13,7 +13,7 @@ Billcrush::Application.routes.draw do
   # Sample resource route (maps HTTP verbs to controller actions automatically):
   resources :groups do
     resources :members
-    resources :transactions, :only => [:create]
+    resources :transactions, :only => [:create, :destroy]
   end
 
   root :to => "welcome#index"
