@@ -91,7 +91,7 @@
           <% @group.members.each do |member|%>
             <th><%= member.name %>
           <% end %>
-        <% @transactions.each_with_index do |transaction, i| %>
+        <% @transactions.reverse.each_with_index do |transaction, i| %>
           <tr class=t>
             <td>
             <td><%= transaction.description %>
