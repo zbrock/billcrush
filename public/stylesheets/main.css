@@ -166,9 +166,15 @@ h2{
 }
 
 #page{
-  width:800px;
-  padding:24px 0 48px;
-  margin:0 auto;
+  padding:24px 12px 48px;
+  min-width:600px
+}
+.blocks_row{
+  white-space:nowrap;
+}
+.blocks_row > div{
+  display:inline-block;
+  white-space:normal;
 }
 #foot{
   border-top:1px solid #000;
@@ -180,9 +186,14 @@ h2{
   background:#E6E8E0;
   border-radius: 4px;
   padding:24px;
-  margin-right:12px;
   -webkit-box-shadow:rgba(34, 36, 29, .5) 0 1px 3px inset,
     rgba(255, 255, 255, .9) 0 1px 1px;
+}
+#trans{
+  margin-right:12px;
+}
+#settle{
+  min-width:220px;
 }
 .no_select{
   -webkit-user-select:none;
@@ -196,7 +207,6 @@ ul{
 li{
   margin:0 0 4px;
 }
-
 h1{
   display:inline-block;
   line-height:1em;
