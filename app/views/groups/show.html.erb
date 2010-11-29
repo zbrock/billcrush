@@ -1,4 +1,4 @@
-<title>Billcrush - <%= @group.name %></title>
+<% content_for :title, "Billcrush – #{@group.name}" %>
 <div style=background:#F1F2ED>
   <table><tr><td width=50%><td id=page>
     <h1>billcrush</h1><h2 style=display:inline-block;margin-left:12px><%= @group.name %></h2>
@@ -42,8 +42,7 @@
           <p style=position:absolute;bottom:24px>
             <%= tf.submit('Add transaction', {:class => 'primary'}) %><button style=margin-left:12px type=reset>Cancel</button>
         <% end %>
-      </div>
-      <div id=settle>
+      </div><div id=settle>
         <% if @group.best_way_to_settle.length == 0 %>
           <h3>All debts are settled</h3>
           <p style=max-width:220px>Everyone in the group is even. When you add new transactions, the best way to settle will be shown here. 
@@ -69,12 +68,12 @@
           <ul>
             <% @group.best_way_to_settle.each do |settlement| %>
               <li><%= settlement[:payer].name %> pays <%= settlement[:payee].name %> <%= money(settlement[:amount]) %> - 
-              <%= form_for :transaction, :url => group_transactions_url(@group), :html => {:method => :post} do |f| %>
+              <%= form_for :transaction, :url => group_transactions_url(@group), :html => {:style => 'display:inline'} do |f| %>
                   <%= f.hidden_field(:payer, :value => settlement[:payer].to_param) %>
                   <%= f.hidden_field(:settlement, :value => "1") %>
                   <%= f.hidden_field(:amount, :value => settlement[:amount].to_f / 100) %>
                   <%= hidden_field_tag "transaction[members][#{settlement[:payee].to_param}]", settlement[:amount].to_f / 100 %>
-                  <%= f.submit "Settle" %>
+                  <a href="javascript:return false" onclick="$(this).closest('form').submit()">Settle</a>
               <% end %>
             <% end %>
             <li><a href="javascript:return false">Settle all</a>
@@ -127,21 +126,21 @@
 <div id=foot>
 </div>
 
+<% content_for :page_script do %>
 <script>
 var bc = {};
 
 $(function() {
   var maxColHeight = Math.max($('#trans').height(),$('#settle').height());
   $('#trans,#settle').height(maxColHeight);
-  console.log(maxColHeight);
-  
+
   var setDate = function(date) {
     $('#date').datepicker('setDate', date || new Date);
   };
   $.datepicker.setDefaults({showAnim:'',prevText:'Previous'});
   $('#date').datepicker().datepicker('widget').css('display', 'none');
   setDate();
-  
+
   var hideRows = function() {
     $('#hist_table tr').removeClass('s');
   };
@@ -151,7 +150,7 @@ $(function() {
     $(this).addClass('s');
     e.stopPropagation();
   });
-  
+
   var splitCheckChange = function() {
     if (!this.on()) {
       this.val('');
@@ -290,7 +289,7 @@ $(function() {
   amount.keyup(updateSplit);
   amount.blur(moneyTextBlur);
   updateSplit();
-  
+
   var newTransaction = function() {
     setDate();
     _.each(splitItems, function(item) { item.on('true').val('') });
@@ -326,6 +325,7 @@ $(function() {
     description.val(transaction.description);
   };
   bc.duplicateTransaction = duplicateTransaction;
-  
+
 });
 </script>
+<% end %>

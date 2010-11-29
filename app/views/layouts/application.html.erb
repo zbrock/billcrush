@@ -1,4 +1,6 @@
 <!DOCTYPE html>
+<title><%= yield(:title) %></title>
 <%= stylesheet_link_tag :all %>
-<%= javascript_include_tag :all %>
 <%= yield %>
+<%= javascript_include_tag 'extern' %>
+<%= yield(:page_script) %>

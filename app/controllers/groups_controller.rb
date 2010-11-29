@@ -1,4 +1,8 @@
 class GroupsController < ApplicationController
+  def get_page_title
+    return 'Billcrush'
+  end
+  
   def index
     @groups = Group.all  
   end
