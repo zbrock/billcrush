@@ -225,6 +225,7 @@ h1{
 }
 #hist td{
   text-align:right;
+  white-space:nowrap;
 }
 #hist th, #hist td{
   padding:2px 12px;

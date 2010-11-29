@@ -70,13 +70,14 @@
               <li><%= settlement[:payer].name %> pays <%= settlement[:payee].name %> <%= money(settlement[:amount]) %> - 
               <%= form_for :transaction, :url => group_transactions_url(@group), :html => {:style => 'display:inline'} do |f| %>
                   <%= f.hidden_field(:payer, :value => settlement[:payer].to_param) %>
-                  <%= f.hidden_field(:settlement, :value => "1") %>
+                  <%= f.hidden_field(:settlement, :value => '1') %>
                   <%= f.hidden_field(:amount, :value => settlement[:amount].to_f / 100) %>
+                  <%= f.hidden_field(:description, :value => "#{settlement[:payer].name} settled with #{settlement[:payee].name}") %>
                   <%= hidden_field_tag "transaction[members][#{settlement[:payee].to_param}]", settlement[:amount].to_f / 100 %>
                   <a href="javascript:return false" onclick="$(this).closest('form').submit()">Settle</a>
               <% end %>
             <% end %>
-            <li><a href="javascript:return false">Settle all</a>
+            <!-- <li><a href="javascript:return false">Settle all</a> -->
           </ul>
         <% end %>
       </div>
@@ -90,6 +91,7 @@
           <% @group.members.each do |member|%>
             <th><%= member.name %>
           <% end %>
+          <th style=visibility:hidden>Duplicate
         <% @transactions.reverse.each_with_index do |transaction, i| %>
           <tr class=t>
             <td>
@@ -107,7 +109,9 @@
                 <%= money_no_unit(credits - debits) %>
             <% end %>
             <td><ul>
-              <li><a href="javascript:bc.duplicateTransaction(<%= i %>)">Duplicate</a>
+              <% if not transaction.settlement %>
+                <li><a href="javascript:bc.duplicateTransaction(<%= i %>)">Duplicate</a>
+              <% end %>
               <li><%= form_for transaction, :url => group_transaction_url(@group, transaction), :html => {:style => 'display:inline', :method => :delete} do %>
                 <a href="javascript:return false" onclick="$(this).closest('form').submit()">Delete</a>
               <% end %>
