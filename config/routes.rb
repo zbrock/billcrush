@@ -15,9 +15,9 @@ Billcrush::Application.routes.draw do
     resources :members
     resources :transactions, :only => [:create, :destroy]
   end
-
+  
   root :to => "welcome#index"
-
- 
-   match '/:name' => 'groups#show', :as => :group
+  
+  match '/:name' => 'groups#show', :as => :group
+  match '/:name/settings' => 'groups#settings', :name => :group
 end

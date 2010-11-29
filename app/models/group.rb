@@ -4,7 +4,6 @@ class Group < ActiveRecord::Base
   has_many :members
   has_many :transactions
 
-
   def best_way_to_settle
     settlement = []
     balances = members.map { |m| {:balance => m.balance, :member => m} }

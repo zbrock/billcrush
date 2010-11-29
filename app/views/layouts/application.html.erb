@@ -1,6 +1,13 @@
 <!DOCTYPE html>
-<title><%= yield(:title) %></title>
+<title>Billcrush – <%= yield(:subtitle) %></title>
 <%= stylesheet_link_tag :all %>
-<%= yield %>
+<div style=background:#F1F2ED>
+  <table><tr><td width=50%><td id=page>
+    <div><h1>billcrush</h1><h2><%= yield(:subtitle) %></h2></div>
+    <%= yield %>
+  <td width=50%></table>
+</div>
+<div id=foot>
+</div>
 <%= javascript_include_tag 'extern' %>
 <%= yield(:page_script) %>

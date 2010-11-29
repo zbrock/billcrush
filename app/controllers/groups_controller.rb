@@ -1,8 +1,4 @@
 class GroupsController < ApplicationController
-  def get_page_title
-    return 'Billcrush'
-  end
-  
   def index
     @groups = Group.all  
   end
@@ -25,10 +21,17 @@ class GroupsController < ApplicationController
     load_group
     @members = @group.members
     @transactions = @group.transactions.scoped_by_active(true)
-    @new_member = @group.members.build
     @new_transaction = @group.transactions.build
     # get rid of the new ones
     @members.reload
     @transactions.reload
+  end
+  
+  def settings
+    load_group
+    @members = @group.members
+    @new_member = @group.members.build
+    # get rid of the new ones
+    @members.reload
   end
 end
