@@ -252,7 +252,7 @@ $(function() {
     val: function() {
       switch (arguments.length) {
         case 0:
-          var val = Math.floor(parseFloat(this.text.val()) * 100);
+          var val = Math.round(parseFloat(this.text.val()) * 100);
           return (isNaN(val)) ? '' : val;
         case 1:
           var val = parseInt(arguments[0]) / 100;
@@ -273,7 +273,7 @@ $(function() {
     if (amount.val() === '') {
       _.each(splitItems, function(item) { item.val('') });
     } else {
-      var total = Math.floor(amount.val() * 100),
+      var total = Math.round(amount.val() * 100),
           manualTotal = _.reduce(splitItems, function(memo, item) {
               return memo + ((!item.auto() && item.val()) ? item.val() : 0);
             }, 0),
@@ -311,7 +311,7 @@ $(function() {
     @group.members.map(&:id).each_with_index{ |m,i| member_ids[m] = i };
   %>
   var memberIds = <%=raw member_ids.to_json %>;
-  var transactionData = <%=raw @transactions.to_json %>;
+  var transactionData = <%=raw sorted_transactions.to_json %>;
   var duplicateTransaction = function(index) {
     var transaction = transactionData[index],
         evenSplit = transaction.amount / transaction.debits.length,

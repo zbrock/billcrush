@@ -4,7 +4,7 @@ class TransactionsController < ApplicationController
   def create
     payer = @group.members.find(params[:transaction][:payer])
     # create inactive so we can create the associated debts
-    amount = (params[:transaction][:amount].to_f * 100).to_i
+    amount = amount_cents(params[:transaction][:amount])
     @transaction = @group.transactions.build(:description => params[:transaction][:description],
                                              :date => params[:transaction][:date],
                                              :amount => amount,
@@ -13,7 +13,7 @@ class TransactionsController < ApplicationController
       @transaction.credits.create!(:member => payer, :amount_cents => amount, :active => false)
       params[:transaction][:members].each_pair do |id, amount|
         debtor = @group.members.find(id)
-        debt_amount = (amount.to_f * 100).to_i
+        debt_amount = amount_cents(amount)
         @transaction.debits.create!(:member => debtor, :amount_cents => debt_amount)
       end
     end
