@@ -1,6 +1,8 @@
-<% content_for :subtitle, 'New group' %>
-<%= form_for @group do |f| %>
-  <%= f.label :name %>:
-  <%= f.text_field :name %><br />
-  <%= f.submit %>
-<% end %>
+<div class=box>
+  <h3>Create new group</h3>
+  <%= form_for @group do |f| %>
+    <p><%= f.label :name %>
+    <p><%= f.text_field :name, :size => 20 %>
+    <p><%= f.submit 'Create group', :style => 'margin-top:12px' %>
+  <% end %>
+</div>
