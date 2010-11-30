@@ -1,0 +1,23 @@
+<% content_for :subtitle, @group.name %>
+<div class="blocks_row box">
+  <div>
+    <h3>Add member</h3>
+    <%= form_for [@group, @new_member] do |f| %>
+      <p><%= f.label :name %>
+      <p><%= f.text_field :name, :size => 10 %>
+      <p><%= f.submit 'Add member', :style => 'margin-top:12px' %>
+    <% end %>
+  </div>
+  <div style=margin-left:24px>
+    <h3>Current members</h3>
+    <% if @members.length == 0 %>
+      This group doesn't have any members yet.
+    <% else %>
+      <ul>
+      <% @members.each do |member| %>
+        <li><%= member.name %>
+      <% end %>
+      </ul>
+    <% end %>
+  </div>
+</div>

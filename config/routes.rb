@@ -18,6 +18,6 @@ Billcrush::Application.routes.draw do
   
   root :to => "welcome#index"
   
-  match '/:name' => 'groups#show', :as => :group
-  match '/:name/settings' => 'groups#settings', :name => :group
+  match '/:name' => 'groups#show'
+  match '/:name/settings' => 'groups#settings'
 end
