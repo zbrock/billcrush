@@ -23,6 +23,10 @@ class Transaction < ActiveRecord::Base
     end
   end
   
+  def display_date
+    self.date || self.created_at.to_date
+  end
+  
   def as_json(options={})
     { :description => self.description,
       :amount => self.amount,

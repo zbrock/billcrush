@@ -9,8 +9,8 @@
             <p><%= tf.label :description %></p>
             <%= tf.text_field :description, {:size => 1, :style => 'width:100%'} %>
           <td style=width:1px;padding-left:4px>
-            <p>Date</p>
-            <input type=text size=6 id=date>
+            <p><%= tf.label :date %></p>
+            <%= tf.text_field :date, {:size => 6} %>
         <tr>
           <td colspan=2>
             <div style=margin-top:8px>
@@ -84,9 +84,12 @@
         <th><%= member.name %>
       <% end %>
       <th style=visibility:hidden>Duplicate
-    <% @transactions.reverse.each_with_index do |transaction, i| %>
+    <% sorted_transactions = @transactions.sort do |a, b|
+         (b.display_date <=> a.display_date) || (b.created_at <=> a.created_at)
+       end
+       sorted_transactions.each_with_index do |transaction, i| %>
       <tr class=t>
-        <td>
+        <td><%= transaction.display_date %>
         <td><%= transaction.description %>
         <td><%= money_no_unit(transaction.amount) %>
         <% @group.members.each do |member| %>
@@ -128,11 +131,12 @@ $(function() {
   var maxColHeight = Math.max($('#trans').height(),$('#settle').height());
   $('#trans,#settle').height(maxColHeight);
 
+  var date_text = $('#transaction_date');
   var setDate = function(date) {
-    $('#date').datepicker('setDate', date || new Date);
+    date_text.datepicker('setDate', date || new Date);
   };
   $.datepicker.setDefaults({showAnim:'',prevText:'Previous'});
-  $('#date').datepicker().datepicker('widget').css('display', 'none');
+  date_text.datepicker().datepicker('widget').css('display', 'none');
   setDate();
 
   var hideRows = function() {

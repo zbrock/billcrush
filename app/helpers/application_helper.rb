@@ -10,8 +10,4 @@ module ApplicationHelper
   def money_no_unit(amount_cents)
     number_to_currency(amount_dollars(amount_cents), :format => '%n')
   end
-  
-  def get_page_title
-    return 'Billcrush'
-  end
 end

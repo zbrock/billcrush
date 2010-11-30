@@ -6,6 +6,7 @@ class TransactionsController < ApplicationController
     # create inactive so we can create the associated debts
     amount = (params[:transaction][:amount].to_f * 100).to_i
     @transaction = @group.transactions.build(:description => params[:transaction][:description],
+                                             :date => params[:transaction][:date],
                                              :amount => amount,
                                              :active => false, :settlement => params[:transaction][:settlement])
     if @transaction.save

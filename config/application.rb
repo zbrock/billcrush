@@ -38,5 +38,7 @@ module Billcrush
 
     # Configure sensitive parameters which will be filtered from the log file.
     config.filter_parameters += [:password]
+    
+    Date::DATE_FORMATS[:default] = "%m/%d/%Y"
   end
 end
