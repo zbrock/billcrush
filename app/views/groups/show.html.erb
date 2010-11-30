@@ -109,8 +109,8 @@
               debits = member.debits_for_transaction(transaction)
               next if credits == 0 and debits == 0
             %>
-            <div class=eq><p class=credit><%= money_no_unit(credits) %>
-              <p class=debit><%= money_no_unit(-debits) %><hr></div>
+            <div class=eq><p class=credit><%= money_no_unit_no_zero(credits) %>
+              <p class=debit><%= money_no_unit_no_zero(-debits) %><hr></div>
               <%= money_no_unit(credits - debits) %>
           <% end %>
           <td><ul>

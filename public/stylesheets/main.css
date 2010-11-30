@@ -255,6 +255,9 @@ hr{
   color:#6d6861;
   display:none;
 }
+.credit,.debit{
+  height:1.231em
+}
 .s .eq{
   display:block;
 }
