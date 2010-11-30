@@ -8,7 +8,7 @@ class MembersController < ApplicationController
     else
       flash[:error] = "Error!  Member not added!"
     end
-    redirect_to(group_url(@group))
+    redirect_to(group_settings_url(@group))
   end
 end
   

@@ -154,17 +154,6 @@ input[type="text"]:disabled{
   background-color:#E6E8E0;
 }
 
-h3{
-  font-size:16px;
-  font-weight:bold;
-  margin-bottom:12px;
-}
-h2{
-  font-size:24px;
-  font-weight:bold;
-  margin-bottom:12px;
-}
-
 #page{
   padding:24px 12px 48px;
   min-width:600px;
@@ -209,15 +198,23 @@ li{
 }
 h1{
   display:inline-block;
-  line-height:1em;
+  line-height:.8em;
   font-size:48px;
   font-weight:bold;
   color:#b1c95c;
   text-shadow: rgba(31, 36, 14, .6) 0 -1px, #fff 0 1px;
+  margin:0 0 10px;
 }
 h2{
   display:inline-block;
-  margin-left:12px;
+  font-size:24px;
+  font-weight:bold;
+  margin:0 0 12px 10px;
+}
+h3{
+  font-size:16px;
+  font-weight:bold;
+  margin:0 0 12px;
 }
 
 #hist{

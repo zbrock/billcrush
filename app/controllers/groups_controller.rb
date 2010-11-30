@@ -10,7 +10,7 @@ class GroupsController < ApplicationController
   def create
     @group = Group.new(params[:group])
     if @group.save
-      redirect_to group_url(@group)
+      redirect_to(group_settings_url(@group))
     else
       flash[:error] = "Bad group info"
       redirect_to new_group_url
