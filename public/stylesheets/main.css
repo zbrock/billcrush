@@ -181,7 +181,7 @@ h2{
   white-space:normal;
   vertical-align:top;
 }
-#trans,#settle,#settings{
+.box{
   position:relative;
   background:#E6E8E0;
   border-radius: 4px;

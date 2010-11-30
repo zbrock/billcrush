@@ -1,126 +1,137 @@
 <% content_for :subtitle, @group.name %>
-<div class=blocks_row>
-  <div id=trans>
-    <%= form_for [@group, @new_transaction] do |tf| %>
-      <h3>New transaction</h3>
-      <table style="float:left;margin:0 0 20px">
-        <tr>
-          <td>
-            <p><%= tf.label :description %></p>
-            <%= tf.text_field :description, {:size => 1, :style => 'width:100%'} %>
-          <td style=width:1px;padding-left:4px>
-            <p><%= tf.label :date %></p>
-            <%= tf.text_field :date, {:size => 6} %>
-        <tr>
-          <td colspan=2>
-            <div style=margin-top:8px>
-              <%= collection_select(:transaction, :payer, @group.members, :id, :name) %>
-            &nbsp;paid&nbsp; $ <%= tf.text_field :amount, {:size => 6} %>
-            </div>
-      </table>
-      <div style="float:left;margin:0 0 12px 24px">
-        <p>Split between
-        <div class=no_select>
-          <table id=split>
-            <% @members.each do |member| %>
-              <tr>
-                <td><input type=checkbox checked id=split<%= member.to_param %>><%= label_tag "split#{member.to_param}", ' ' + member.name %> &nbsp;
-                <td>$ <%= text_field_tag "transaction[members][#{member.to_param}]", '', {:size => 6, :class => 'auto'} %>
-            <% end %>
-          </table>
+<% if @members.length >= 2 %>
+  <div class=blocks_row>
+    <div id=trans class=box>
+      <%= form_for [@group, @new_transaction] do |tf| %>
+        <h3>New transaction</h3>
+        <table style="float:left;margin:0 0 20px">
+          <tr>
+            <td>
+              <p><%= tf.label :description %></p>
+              <%= tf.text_field :description, {:size => 1, :style => 'width:100%'} %>
+            <td style=width:1px;padding-left:4px>
+              <p><%= tf.label :date %></p>
+              <%= tf.text_field :date, {:size => 6} %>
+          <tr>
+            <td colspan=2>
+              <div style=margin-top:8px>
+                <%= collection_select(:transaction, :payer, @group.members, :id, :name) %>
+              &nbsp;paid&nbsp; $ <%= tf.text_field :amount, {:size => 6} %>
+              </div>
+        </table>
+        <div style="float:left;margin:0 0 12px 24px">
+          <p>Split between
+          <div class=no_select>
+            <table id=split>
+              <% @members.each do |member| %>
+                <tr>
+                  <td><input type=checkbox checked id=split<%= member.to_param %>><%= label_tag "split#{member.to_param}", ' ' + member.name %> &nbsp;
+                  <td>$ <%= text_field_tag "transaction[members][#{member.to_param}]", '', {:size => 6, :class => 'auto'} %>
+              <% end %>
+            </table>
+          </div>
         </div>
-      </div>
-      <p style=clear:both;height:31px>
-      <p style=position:absolute;bottom:24px>
-        <%= tf.submit('Add transaction', {:class => 'primary'}) %><button style=margin-left:12px type=reset>Cancel</button>
-    <% end %>
-  </div><div id=settle>
-    <% if @group.best_way_to_settle.length == 0 %>
-      <h3>All debts are settled</h3>
-      <p style=max-width:220px>Everyone in the group is even. When you add new transactions, the best way to settle will be shown here. 
-    <% else %>
-      <% members_by_balance = @members.sort_by(&:balance) %>
-      <div style=float:left>
-        <h3>Owed</h3>
+        <p style=clear:both;height:31px>
+        <p style=position:absolute;bottom:24px>
+          <%= tf.submit('Add transaction', {:class => 'primary'}) %><button style=margin-left:12px type=reset>Cancel</button>
+      <% end %>
+    </div><div id=settle class=box>
+      <% if @group.best_way_to_settle.length == 0 %>
+        <h3>All debts are settled</h3>
+        <p style=max-width:220px>Everyone in the group is even. When you add new transactions, the best way to settle will be shown here. 
+      <% else %>
+        <% members_by_balance = @members.sort_by(&:balance) %>
+        <div style=float:left>
+          <h3>Owed</h3>
+          <ul>
+            <% members_by_balance.reverse.find_all{|m| m.balance > 0}.each do |member| %>
+              <li><%= "#{member.name}: #{money(member.balance)}" %>
+            <% end %>
+          </ul>
+        </div>
+        <div style=float:left;margin-left:24px>
+          <h3>Owes</h3>
+          <ul>
+            <% members_by_balance.find_all{|m| m.balance < 0}.each do |member| %>
+              <li><%= "#{member.name}: #{money(member.balance)}" %>
+            <% end %>
+          </ul>
+        </div>
+        <h3 style=clear:both;padding-top:12px>Settle</h3>
         <ul>
-          <% members_by_balance.reverse.find_all{|m| m.balance > 0}.each do |member| %>
-            <li><%= "#{member.name}: #{money(member.balance)}" %>
+          <% @group.best_way_to_settle.each do |settlement| %>
+            <li><%= settlement[:payer].name %> pays <%= settlement[:payee].name %> <%= money(settlement[:amount]) %> - 
+            <%= form_for :transaction, :url => group_transactions_url(@group), :html => {:style => 'display:inline'} do |f| %>
+                <%= f.hidden_field(:payer, :value => settlement[:payer].to_param) %>
+                <%= f.hidden_field(:settlement, :value => '1') %>
+                <%= f.hidden_field(:amount, :value => settlement[:amount].to_f / 100) %>
+                <%= f.hidden_field(:description, :value => "#{settlement[:payer].name} settled with #{settlement[:payee].name}") %>
+                <%= hidden_field_tag "transaction[members][#{settlement[:payee].to_param}]", settlement[:amount].to_f / 100 %>
+                <a href="javascript:return false" onclick="$(this).closest('form').submit()">Settle</a>
+            <% end %>
           <% end %>
+          <!-- <li><a href="javascript:return false">Settle all</a> -->
         </ul>
-      </div>
-      <div style=float:left;margin-left:24px>
-        <h3>Owes</h3>
-        <ul>
-          <% members_by_balance.find_all{|m| m.balance < 0}.each do |member| %>
-            <li><%= "#{member.name}: #{money(member.balance)}" %>
-          <% end %>
-        </ul>
-      </div>
-      <h3 style=clear:both;padding-top:12px>Settle</h3>
-      <ul>
-        <% @group.best_way_to_settle.each do |settlement| %>
-          <li><%= settlement[:payer].name %> pays <%= settlement[:payee].name %> <%= money(settlement[:amount]) %> - 
-          <%= form_for :transaction, :url => group_transactions_url(@group), :html => {:style => 'display:inline'} do |f| %>
-              <%= f.hidden_field(:payer, :value => settlement[:payer].to_param) %>
-              <%= f.hidden_field(:settlement, :value => '1') %>
-              <%= f.hidden_field(:amount, :value => settlement[:amount].to_f / 100) %>
-              <%= f.hidden_field(:description, :value => "#{settlement[:payer].name} settled with #{settlement[:payee].name}") %>
-              <%= hidden_field_tag "transaction[members][#{settlement[:payee].to_param}]", settlement[:amount].to_f / 100 %>
-              <a href="javascript:return false" onclick="$(this).closest('form').submit()">Settle</a>
-          <% end %>
-        <% end %>
-        <!-- <li><a href="javascript:return false">Settle all</a> -->
-      </ul>
-    <% end %>
+      <% end %>
+    </div>
   </div>
-</div>
+<% else %>
+  <div class=box>
+    <h3>Please add members</h3>
+    The group must contain 2 or more members to add transactions.
+  </div>
+<% end %>
 <div id=hist>
-  <table id=hist_table>
-    <tr>
-      <th>Date
-      <th>Description
-      <th>Cost
-      <% @group.members.each do |member|%>
-        <th><%= member.name %>
-      <% end %>
-      <th style=visibility:hidden>Duplicate
-    <% sorted_transactions = @transactions.sort do |a, b|
-         (b.display_date <=> a.display_date) || (b.created_at <=> a.created_at)
-       end
-       sorted_transactions.each_with_index do |transaction, i| %>
-      <tr class=t>
-        <td><%= transaction.display_date %>
-        <td><%= transaction.description %>
-        <td><%= money_no_unit(transaction.amount) %>
-        <% @group.members.each do |member| %>
-          <td>
-          <%
-            credits = member.credits_for_transaction(transaction)
-            debits = member.debits_for_transaction(transaction)
-            next if credits == 0 and debits == 0
-          %>
-          <div class=eq><p class=credit><%= money_no_unit(credits) %>
-            <p class=debit><%= money_no_unit(-debits) %><hr></div>
-            <%= money_no_unit(credits - debits) %>
+  <% if @transactions.length > 0 %>
+    <table id=hist_table>
+      <tr>
+        <th>Date
+        <th>Description
+        <th>Cost
+        <% @group.members.each do |member|%>
+          <th><%= member.name %>
         <% end %>
-        <td><ul>
-          <% if not transaction.settlement %>
-            <li><a href="javascript:bc.duplicateTransaction(<%= i %>)">Duplicate</a>
+        <th style=visibility:hidden>Duplicate
+      <% sorted_transactions = @transactions.sort do |a, b|
+           res = b.display_date <=> a.display_date
+           res = b.created_at <=> a.created_at if res == 0
+           res
+         end
+         sorted_transactions.each_with_index do |transaction, i| %>
+        <tr class=t>
+          <td><%= transaction.display_date %>
+          <td><%= transaction.description %>
+          <td><%= money_no_unit(transaction.amount) %>
+          <% @group.members.each do |member| %>
+            <td>
+            <%
+              credits = member.credits_for_transaction(transaction)
+              debits = member.debits_for_transaction(transaction)
+              next if credits == 0 and debits == 0
+            %>
+            <div class=eq><p class=credit><%= money_no_unit(credits) %>
+              <p class=debit><%= money_no_unit(-debits) %><hr></div>
+              <%= money_no_unit(credits - debits) %>
           <% end %>
-          <li><%= form_for transaction, :url => group_transaction_url(@group, transaction), :html => {:style => 'display:inline', :method => :delete} do %>
-            <a href="javascript:return false" onclick="$(this).closest('form').submit()">Delete</a>
-          <% end %>
-      </tr>
-    <% end %>
-    <tr class=b>
-      <td>
-      <td>Total
-      <td><%= money(@transactions.sum(:amount)) %>
-      <% @group.members.each do |member|%>
-        <td><%= money(member.balance) %>
+          <td><ul>
+            <% if not transaction.settlement %>
+              <li><a href="javascript:bc.duplicateTransaction(<%= i %>)">Duplicate</a>
+            <% end %>
+            <li><%= form_for transaction, :url => group_transaction_url(@group, transaction), :html => {:style => 'display:inline', :method => :delete} do %>
+              <a href="javascript:return false" onclick="$(this).closest('form').submit()">Delete</a>
+            <% end %>
+        </tr>
       <% end %>
-      <td>
-  </table>
+      <tr class=b>
+        <td>
+        <td>Total
+        <td><%= money(@transactions.sum(:amount)) %>
+        <% @group.members.each do |member|%>
+          <td><%= money(member.balance) %>
+        <% end %>
+        <td>
+    </table>
+  <% end %>
 </div>
 
 <% content_for :page_script do %>
