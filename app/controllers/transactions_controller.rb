@@ -3,7 +3,7 @@ class TransactionsController < ApplicationController
 
   def create
     payer = @group.members.find(params[:transaction][:payer])
-    cookies[@group.id.to_s + ':last_payer'] = payer.id
+    cookies[@group.id.to_s + '_last_payer'] = payer.id
     # create inactive so we can create the associated debts
     amount = amount_cents(params[:transaction][:amount])
     @transaction = @group.transactions.build(:description => params[:transaction][:description],
