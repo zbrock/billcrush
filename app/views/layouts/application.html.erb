@@ -1,8 +1,9 @@
 <!DOCTYPE html>
-<title>Billcrush – <%= yield(:subtitle) %></title>
+<% subtitle = yield(:subtitle) %>
+<title>Billcrush<%= " – #{subtitle}" if subtitle != '' %></title>
 <%= stylesheet_link_tag 'main' %>
 <div id=page>
-  <div><h1>billcrush</h1><h2><%= yield(:subtitle) %></h2></div>
+  <div><h1>billcrush</h1><h2><%= subtitle %></h2></div>
   <%= yield %>
 </div>
 <div id=foot>
