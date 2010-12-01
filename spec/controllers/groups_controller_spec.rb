@@ -15,13 +15,6 @@ describe GroupsController do
         expect{ get :show, :name => "jibberjabber" }.to raise_error(ActiveRecord::RecordNotFound)
       end
     end
-
-    context "with a numeric id" do
-      before(:each) do
-        get :show, :id => Factory(:group)
-      end
-      it { should assign_to(:new_member) }
-    end
   end
 
   describe "#create" do
@@ -30,10 +23,10 @@ describe GroupsController do
       it "changes the group count by 1" do
         expect { post :create, @params }.to change(Group, :count).by(1)
       end
-      it "redirects to the new group page" do
+      it "redirects to the new group's settings page" do
         post :create, @params
         group = assigns[:group]
-        response.should redirect_to(group_url(group))
+        response.should redirect_to(group_settings_url(group))
       end
     end
     context "with an invalid name" do

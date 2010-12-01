@@ -2,7 +2,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
   
   def amount_cents(amount_decimal)
-    (amount_decimal.to_f * 100).round.to_i
+    (amount_decimal.to_f * 100).round
   end
 
   private

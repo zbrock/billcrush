@@ -11,12 +11,11 @@ X Access groups with nice urls (/sanchez instead of /2)
 X See details for each transaction (grid view)
 X Button to mark debt as settled
 X Delete transactions
+X Can set created at date when creating an item
 
 Awesome buttons
 Front end design work
 Member filter transactions for just a given user
 Disable a user so they don't show up in the new entry form anymore
 Multiple members can pay
-Can set created at date when creating an item
-Members can edit transactions
 Form to record 1-1 payments (i.e. Zach loaned brian $5) (modeling should be same, just a nicer ui)

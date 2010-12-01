@@ -9,12 +9,16 @@ describe TransactionsController do
     end
     context "with valid params" do
       before do
+        # These values were selected to detect floating point rounding error.
+        # (1.13 * 100).floor == 112, instead of 113
+        # (1.1 * 100).ceil == 111, instead of 110
+        # (0.03 * 100).floor == 3 and (0.03 * 100).ceil == 3
         @params = {:group_id    => @group.to_param,
                    :transaction =>
                        {:description => "stuff and puff",
-                        :amount      =>"30",
+                        :amount      => "1.13",
                         :payer       => @member_one.to_param,
-                        :members     => {@member_one.to_param => "20", @member_two.to_param => "10"}
+                        :members     => {@member_one.to_param => "0.03", @member_two.to_param => "1.10"}
                        }}
       end
       context "when settlement is true" do
@@ -32,7 +36,7 @@ describe TransactionsController do
       it "sets the values correctly" do
         post :create, @params
         transaction = assigns[:transaction]
-        transaction.amount.should == 3000
+        transaction.amount.should == 113
         transaction.description.should == "stuff and puff"
         transaction.should be_active
       end
@@ -41,8 +45,9 @@ describe TransactionsController do
         @member_one.balance.should == 0
         @member_two.balance.should == 0
         post :create, @params
-        @member_one.balance.should == 1000
-        @member_two.balance.should == -1000
+        @member_one.balance.should == -@member_two.balance
+        @member_one.balance.should == 110
+        @member_two.balance.should == -110
       end
 
       it "redirects to the group page" do
