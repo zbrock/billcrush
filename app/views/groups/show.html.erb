@@ -15,7 +15,7 @@
           <tr>
             <td colspan=2>
               <div style=margin-top:8px>
-                <%= collection_select(:transaction, :payer, @group.members, :id, :name) %>
+                <%= collection_select(:transaction, :payer, @group.members, :id, :name, :selected => cookies[@group.id.to_s + ':last_payer']) %>
               &nbsp;paid&nbsp; $ <%= tf.text_field :amount, {:size => 6} %>
               </div>
         </table>
