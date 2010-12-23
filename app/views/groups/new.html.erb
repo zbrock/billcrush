@@ -3,6 +3,10 @@
   <%= form_for @group do |f| %>
     <p><%= f.label :name %>
     <p><%= f.text_field :name, :size => 20 %>
+
+    <p><%= f.label :password, "Optional Password"  %>
+    <p><%= f.password_field :password, :size => 20 %>
+
     <p><%= f.submit 'Create group', :style => 'margin-top:12px' %>
   <% end %>
 </div>

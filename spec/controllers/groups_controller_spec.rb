@@ -12,7 +12,7 @@ describe GroupsController do
       end
 
       it "throws a 404 if the group can't be found" do
-        expect{ get :show, :name => "jibberjabber" }.to raise_error(ActiveRecord::RecordNotFound)
+        expect { get :show, :name => "jibberjabber" }.to raise_error(ActiveRecord::RecordNotFound)
       end
     end
   end
@@ -28,6 +28,18 @@ describe GroupsController do
         group = assigns[:group]
         response.should redirect_to(group_settings_url(group))
       end
+      it "doesn't store a password if none is specified" do
+        post :create, @params
+        group = assigns[:group]
+        group.password_hash.should be_nil
+      end
+
+      it "stores a password if one is specified" do
+        post :create, @params.merge(:group => {:password => "fizzle"})
+        group = assigns[:group]
+        group.password_hash.should be_present
+      end
+
     end
     context "with an invalid name" do
       before { @params = {:group => {:name => ""}} }

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101223224604) do
+ActiveRecord::Schema.define(:version => 20101223230056) do
 
   create_table "credits", :force => true do |t|
     t.integer  "member_id"
@@ -35,6 +35,7 @@ ActiveRecord::Schema.define(:version => 20101223224604) do
     t.string   "canonicalized_name"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "password_hash"
   end
 
   create_table "members", :force => true do |t|

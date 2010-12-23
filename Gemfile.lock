@@ -30,6 +30,7 @@ GEM
     activesupport (3.0.3)
     arel (2.0.4)
     awesome_print (0.2.1)
+    bcrypt-ruby (2.1.2)
     builder (2.1.2)
     columnize (0.3.1)
     diff-lcs (1.1.2)
@@ -99,6 +100,7 @@ PLATFORMS
 
 DEPENDENCIES
   awesome_print
+  bcrypt-ruby
   factory_girl_rails
   forgery
   mysql2

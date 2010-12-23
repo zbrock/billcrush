@@ -80,4 +80,18 @@ describe Group do
       end
     end
   end
+  describe "#password_valid?" do
+    it "returns true if no password is set but one is given" do
+      Factory(:group).password_valid?("asdf").should be_true
+    end
+    it "returns true if no password is set and none is given" do
+      Factory(:group).password_valid?(nil).should be_true
+    end
+    it 'returns true if the password set matches the password given' do
+      Factory(:group, :password => "asdf").password_valid?("asdf").should be_true
+    end
+    it "returns false if the password set does not match the password given" do
+      Factory(:group, :password => "asdf").password_valid?("qqqq").should be_false
+    end
+  end
 end
