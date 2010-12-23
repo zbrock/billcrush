@@ -24,7 +24,7 @@ class Transaction < ActiveRecord::Base
   end
   
   def display_date
-    self.date || self.created_at.to_date
+    self.date.try(:to_date) || self.created_at.to_date
   end
   
   def as_json(options={})
