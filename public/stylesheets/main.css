@@ -84,7 +84,7 @@ button.primary:active, input[type="submit"].primary:active{
     rgba(203, 232, 107, .6) 0 0 2px 1px inset,
     rgba(255, 255, 255, .9) 0 1px 1px;
 }
-input[type="text"]{
+input[type="text"], input[type="password"]{
   outline:none;
   border:0;
   background:#fff;
@@ -97,7 +97,7 @@ input[type="text"]{
   -webkit-box-shadow: rgba(31, 36, 14, .5) 0 1px 2px inset,
     rgba(255, 255, 255, .9) 0 1px 1px;
 }
-input[type="text"]:focus{
+input[type="text"]:focus, input[type="password"]:focus{
   -webkit-box-shadow: rgba(31, 36, 14, .5) 0 1px 2px 1px inset,
     rgba(255, 255, 255, .9) 0 1px 1px;
 }
