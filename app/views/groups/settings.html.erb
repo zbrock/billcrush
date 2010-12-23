@@ -5,8 +5,9 @@
     <%= form_for [@group, @new_member] do |f| %>
       <p><%= f.label :name %>
       <p><%= f.text_field :name, :size => 10 %>
-      <p><%= f.submit 'Add member', :style => 'margin-top:12px' %>
+      <p><%= f.submit 'Add member', :class => "primary", :style => 'margin-top:12px' %>
     <% end %>
+    <%= button_to "Done", group_url(@group), {:method => :get, :style => "margin-top: 10px;"} %>
   </div>
   <div style=margin-left:24px>
     <h3>Current members</h3>

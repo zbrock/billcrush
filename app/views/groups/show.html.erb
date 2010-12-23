@@ -35,7 +35,8 @@
         <p style=position:absolute;bottom:24px>
           <%= tf.submit('Add transaction', {:class => 'primary'}) %><button style=margin-left:12px type=reset>Cancel</button>
       <% end %>
-    </div><div id=settle class=box>
+    </div>
+    <div id=settle class=box>
       <% if @group.best_way_to_settle.length == 0 %>
         <h3>All debts are settled</h3>
         <p style=max-width:220px>Everyone in the group is even. When you add new transactions, the best way to settle will be shown here. 
@@ -74,11 +75,20 @@
         </ul>
       <% end %>
     </div>
+    <div id=members class=box>
+      <ul>
+        <h3>Members</h3>
+      <% @members.each do |member| %>
+       <li> <%= member.name %> </li>
+      <% end %>
+      <%= link_to "Add", group_settings_url(@group) %>
+      </ul>
+    </div>
   </div>
 <% else %>
   <div class=box>
     <h3>Please add members</h3>
-    The group must contain 2 or more members to add transactions.
+    The group must contain 2 or more members to add transactions.  Please <%= link_to "add members", group_settings_url(@group) %>.
   </div>
 <% end %>
 <div id=hist>
@@ -139,8 +149,8 @@
 var bc = {};
 
 $(function() {
-  var maxColHeight = Math.max($('#trans').height(),$('#settle').height());
-  $('#trans,#settle').height(maxColHeight);
+  var maxColHeight = Math.max($('#trans').height(),$('#settle').height(), $('#members').height());
+  $('#trans,#settle,#members').height(maxColHeight);
 
   var date_text = $('#transaction_date');
   var setDate = function(date) {
