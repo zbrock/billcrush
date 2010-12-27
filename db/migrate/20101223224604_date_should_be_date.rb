@@ -3,7 +3,11 @@ class DateShouldBeDate < ActiveRecord::Migration
     add_column :transactions, :temp_date, :datetime
     Transaction.reset_column_information
     Transaction.all.each do |transaction|
-      transaction.temp_date = Date.parse(transaction.date) if transaction.date.present?
+      if transaction.date.present? &&  transaction.date.class.is_a?(String)
+        transaction.temp_date = Date.parse(transaction.date)
+      else
+        transaction.temp_date = transaction.date
+      end
       transaction.save!
     end
     remove_column :transactions, :date
