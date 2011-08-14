@@ -8,7 +8,7 @@ class GroupsController < ApplicationController
     if @group.save
       redirect_to(group_settings_url(@group))
     else
-      flash[:error] = "Bad group info"
+      flash[:error] = "Bad group name"
       redirect_to new_group_url
     end
   end

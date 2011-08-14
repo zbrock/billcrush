@@ -4,7 +4,7 @@ class MembersController < ApplicationController
   def create
     member = @group.members.build(params[:member])
     if member.save
-      flash[:message] = "Member added!"
+      flash[:message] = "#{member.name} added!"
     else
       flash[:error] = "Error!  Member not added!"
     end
