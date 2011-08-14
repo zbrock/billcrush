@@ -48,7 +48,7 @@ GEM
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
     mime-types (1.16)
-    mysql2 (0.2.6)
+    mysql2 (0.2.11)
     polyglot (0.3.1)
     rack (1.2.1)
     rack-mount (0.6.13)
@@ -87,6 +87,7 @@ GEM
     ruby-debug-base (0.10.3)
       linecache (>= 0.3)
     shoulda (2.11.3)
+    system_timer (1.2.4)
     thor (0.14.6)
     treetop (1.4.9)
       polyglot (>= 0.3.1)
@@ -101,9 +102,10 @@ DEPENDENCIES
   awesome_print
   factory_girl_rails
   forgery
-  mysql2
+  mysql2 (= 0.2.11)
   rails (= 3.0.3)
   rspec-rails (~> 2.0.1)
   ruby-debug
   shoulda
+  system_timer
   unicorn
