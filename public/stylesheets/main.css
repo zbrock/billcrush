@@ -332,3 +332,7 @@ hr{
     rgba(255, 255, 255, .9) 0 1px 1px;
   color:#1C140D;
 }
+
+p.help{
+  margin-top: 10px;
+}
