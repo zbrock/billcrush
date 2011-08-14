@@ -21,7 +21,7 @@ There are more detailed instructions here:
 http://devcenter.heroku.com/articles/quickstart
 
 ## Security
-Your best bet is to run your own instance. If you want to use billcrush.com, I suggest picking a hard to guess group name. You'll access your group at `http://billcrush.com/<group_name>`, so something obscure like "a18f2887118" should be an effective password.
+Your best bet is to run your own instance. If you want to use billcrush.com, I suggest picking a hard to guess group name. You'll access your group at `http://billcrush.com/<group_name>`, so something obscure like "a18f2887118" should act effectively like a password.
 
 
 ## Contributing
