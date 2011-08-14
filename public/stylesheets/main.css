@@ -161,8 +161,15 @@ input[type="text"]:disabled{
   min-height:500px;
 }
 #foot{
+  padding: 3px 0 0 2px;
+  color: white;
+  text-shadow: none;
   border-top:1px solid #000;
   height:24px;
+}
+#foot a {
+  text-shadow:none;
+  color: white;
 }
 .blocks_row{
   white-space:nowrap;
