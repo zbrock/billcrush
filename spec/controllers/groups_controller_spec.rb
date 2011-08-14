@@ -12,7 +12,8 @@ describe GroupsController do
       end
 
       it "throws a 404 if the group can't be found" do
-        expect{ get :show, :name => "jibberjabber" }.to raise_error(ActiveRecord::RecordNotFound)
+        get :show, :name => "jibberjabber"
+        response.status.should == 404
       end
     end
   end
