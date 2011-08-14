@@ -11,5 +11,7 @@ gem 'system_timer'
 group :test, :development do
   gem "shoulda"
   gem "rspec-rails", "~> 2.0.1"
-  gem 'ruby-debug'  
+  gem 'ruby-debug'
+  gem 'capybara', :require => false
+  gem 'launchy'
 end

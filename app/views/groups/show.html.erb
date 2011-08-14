@@ -23,10 +23,10 @@
           <p>Split between
           <div class=no_select>
             <table id=split>
-              <% @members.each do |member| %>
+              <% @members.each_with_index do |member,i| %>
                 <tr>
                   <td><input type=checkbox checked id=split<%= member.to_param %>><%= label_tag "split#{member.to_param}", ' ' + member.name %> &nbsp;
-                  <td>$ <%= text_field_tag "transaction[members][#{member.to_param}]", '', {:size => 6, :class => 'auto'} %>
+                  <td>$ <%= text_field_tag "transaction[members][#{member.to_param}]", '', {:size => 6, :class => "auto", :id => "transaction-amount-#{i}"} %>
               <% end %>
             </table>
           </div>
@@ -62,7 +62,7 @@
         <ul>
           <% @group.best_way_to_settle.each do |settlement| %>
             <li><%= settlement[:payer].name %> pays <%= settlement[:payee].name %> <%= money(settlement[:amount]) %> - 
-            <%= form_for :transaction, :url => group_transactions_url(@group), :html => {:style => 'display:inline'} do |f| %>
+            <%= form_for :transaction, :url => group_transactions_url(@group), :html => {:style => 'display:inline', :class => "settlement-form"} do |f| %>
                 <%= f.hidden_field(:payer, :value => settlement[:payer].to_param) %>
                 <%= f.hidden_field(:settlement, :value => '1') %>
                 <%= f.hidden_field(:amount, :value => settlement[:amount].to_f / 100) %>
