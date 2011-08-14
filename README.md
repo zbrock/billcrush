@@ -21,10 +21,17 @@ There are more detailed instructions here:
 http://devcenter.heroku.com/articles/quickstart
 
 ## Security
-You can pick a hard to guess group name. You'll access your group at http://billcrush.com/<group name>, so something obscure like "a18f2887118" should be an effective password. I suggest running your own copy if you're really worried about it.
+Your best bet is to run your own instance. If you want to use billcrush.com, I suggest picking a hard to guess group name. You'll access your group at http://billcrush.com/<group name>, so something obscure like "a18f2887118" should be an effective password.
 
-#Feature TODO
-Filter for showing transactions for just a given user
-Disable a user so they don't show up in the new entry form anymore (soft delete)
-Nicer UI to record 1-1 payments (i.e. Zach loaned brian $5)
-Multiple members can pay
+
+## Contributing
+ * Fork
+ * Fix and test
+ * Send a pull request
+ 
+## TODO List
+ * Filter for showing transactions for just a given user
+ * Disable a user so they don't show up in the new entry form anymore (soft delete)
+ * Nicer UI to record 1-1 payments (i.e. Zach loaned brian $5)
+ * Multiple members can pay
+
