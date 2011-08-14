@@ -109,7 +109,12 @@
          end
          sorted_transactions.each_with_index do |transaction, i| %>
         <tr class=t>
-          <td><%= transaction.display_date %>
+          <td>
+              <%= transaction.display_date %>
+              <% if transaction.display_date != transaction.created_at.to_date %>
+                <span class="created-at">Created: <br> <%= transaction.created_at.to_date %></span>
+              <% end %>
+          </td>
           <td><%= transaction.description %>
           <td><%= money_no_unit(transaction.amount) %>
           <% @group.members.each do |member| %>

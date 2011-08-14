@@ -260,6 +260,13 @@ hr{
 .s .eq{
   display:block;
 }
+.created-at {
+  display:none;
+  color: #6d6861;
+}
+.s .created-at{
+  display:block;
+}
 .t:hover{
   background:#fff;
   cursor:pointer;
