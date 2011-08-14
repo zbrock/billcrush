@@ -343,3 +343,28 @@ hr{
 p.help{
   margin-top: 10px;
 }
+
+p.get-started{
+ margin-bottom: 10px;  
+}
+
+h2.intro
+{
+  margin: 0 0 15px 0;
+}
+
+.flash{
+  margin: 0 auto 10px auto;
+  padding: 10px 5px;
+  width: 50%;
+  text-align:center;
+  font-weight: bold;
+  background:#B9E8B7;
+  border-radius: 4px;
+
+}
+
+.flash.error{
+ background: #E09FB0;  
+}
+

@@ -1,0 +1,15 @@
+<% content_for(:title) do %>
+ Welcome to Billcrush!
+<% end %>
+<h2 class="intro">
+Billcrush is a simple tool for tracking shared expenses and finding the easiest way to settle.
+</h2>
+
+<p class="get-started">
+<button onclick="document.location='/groups/new'">Get Started</button>
+</p>
+
+<h3>
+  Currently tracking <%= money(Transaction.sum(:amount)) %> in shared expenses.
+</h3>
+
