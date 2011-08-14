@@ -6,6 +6,7 @@ class GroupsController < ApplicationController
   def create
     @group = Group.new(params[:group])
     if @group.save
+      cookies[:show_help] = true
       redirect_to(group_settings_url(@group))
     else
       flash[:error] = "Bad group name"
@@ -14,7 +15,12 @@ class GroupsController < ApplicationController
   end
 
   def show
+    redirect_to(group_url(@group)) if request.env['REQUEST_URI'] =~ /\?$/
     load_group
+    if cookies[:show_help].present?
+      flash.now[:message] = "Don't forget your url! It's the only way to access your group."
+      cookies[:show_help] = nil
+    end
     @members = @group.members
     @transactions = @group.transactions.scoped_by_active(true)
     @new_transaction = @group.transactions.build

@@ -16,6 +16,7 @@ describe "creating a group", :type => :request do
     page.should have_content("Bob added!")
     click_button 'Done'
     
+    page.should have_content("Don't forget your url! It's the only way to access your group.")
     page.should have_content("The group must contain 2 or more members to add transactions")
     click_link "add members"
 
@@ -23,7 +24,7 @@ describe "creating a group", :type => :request do
     click_button 'Add member'
     page.should have_content("Alice added!")
     click_button 'Done'
-    
+
     page.should have_content(group_name)
     page.should have_content("Bob")
     page.should have_content("Alice")
