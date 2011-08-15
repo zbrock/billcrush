@@ -1,8 +1,24 @@
 <!DOCTYPE html>
 <% subtitle = yield(:subtitle) %>
 <% title = yield(:title) %>
+<head>
 <title>Billcrush<%= " – #{subtitle}" if subtitle != '' %></title>
 <%= stylesheet_link_tag 'main' %>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', '<%= GOOGLE_ANALYTICS_CODE %>']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+</head>
+<body>
 <div id=page>
   <div><h1><%= title.present?? title : "Billcrush" %></h1><h2><%= subtitle %></h2></div>
   <% if flash[:message].present? %>
@@ -22,3 +38,4 @@
 </div>
 <%= javascript_include_tag 'extern' %>
 <%= yield(:page_script) %>
+</body>
