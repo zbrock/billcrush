@@ -7,7 +7,7 @@ class Group < ActiveRecord::Base
   def best_way_to_settle
     settlement = []
     balances = members.map { |m| {:balance => m.balance, :member => m} }
-    SystemTimer.timeout(1) do
+    Timeout.timeout(1) do
       while balances.size > 0
         balances = sort_and_filter(balances)
         break if balances.size == 0

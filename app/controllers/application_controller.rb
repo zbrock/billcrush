@@ -16,6 +16,7 @@ class ApplicationController < ActionController::Base
       render :template => "shared/404", :layout => 'application', :status => 404
     end
   end
+
   private
   def load_group
     if params[:name].present?
