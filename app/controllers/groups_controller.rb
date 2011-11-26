@@ -22,7 +22,7 @@ class GroupsController < ApplicationController
       cookies[:show_help] = nil
     end
     @members = @group.members
-    @transactions = @group.transactions.scoped_by_active(true)
+    @transactions = @group.transactions.where({:active => true}).includes([:debits => :member, :credits => :member])
     @new_transaction = @group.transactions.build
     # get rid of the new ones
     @members.reload
