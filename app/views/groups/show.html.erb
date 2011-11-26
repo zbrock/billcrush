@@ -108,34 +108,36 @@
            res
          end
          sorted_transactions.each_with_index do |transaction, i| %>
-        <tr class=t>
-          <td>
-              <%= transaction.display_date %>
-              <% if transaction.display_date != transaction.created_at.to_date %>
-                <span class="created-at">Created: <br> <%= transaction.created_at.to_date %></span>
-              <% end %>
-          </td>
-          <td><%= transaction.description %>
-          <td><%= money_no_unit(transaction.amount) %>
-          <% @group.members.each do |member| %>
-            <td>
-            <%
-              credits = member.credits_for_transaction(transaction)
-              debits = member.debits_for_transaction(transaction)
-              next if credits == 0 and debits == 0
-            %>
-            <div class=eq><p class=credit><%= money_no_unit_no_zero(credits) %>
-              <p class=debit><%= money_no_unit_no_zero(-debits) %><hr></div>
-              <%= money_no_unit(credits - debits) %>
-          <% end %>
-          <td><ul>
-            <% if not transaction.settlement %>
-              <li><a href="javascript:bc.duplicateTransaction(<%= i %>)">Duplicate</a>
-            <% end %>
-            <li><%= form_for transaction, :url => group_transaction_url(@group, transaction), :html => {:style => 'display:inline', :method => :delete} do %>
-              <a href="javascript:return false" onclick="$(this).closest('form').submit()">Delete</a>
-            <% end %>
-        </tr>
+		<% cache("group::#{@group.id}::transaction::#{transaction.id}") do %>
+        	<tr class=t>
+	          <td>
+	              <%= transaction.display_date %>
+	              <% if transaction.display_date != transaction.created_at.to_date %>
+	                <span class="created-at">Created: <br> <%= transaction.created_at.to_date %></span>
+	              <% end %>
+	          </td>
+	          <td><%= transaction.description %>
+	          <td><%= money_no_unit(transaction.amount) %>
+	          <% @group.members.each do |member| %>
+	            <td>
+	            <%
+	              credits = member.credits_for_transaction(transaction)
+	              debits = member.debits_for_transaction(transaction)
+	              next if credits == 0 and debits == 0
+	            %>
+	            <div class=eq><p class=credit><%= money_no_unit_no_zero(credits) %>
+	              <p class=debit><%= money_no_unit_no_zero(-debits) %><hr></div>
+	              <%= money_no_unit(credits - debits) %>
+	          <% end %>
+	          <td><ul>
+	            <% if not transaction.settlement %>
+	              <li><a href="javascript:bc.duplicateTransaction(<%= i %>)">Duplicate</a>
+	            <% end %>
+	            <li><%= form_for transaction, :url => group_transaction_url(@group, transaction), :html => {:style => 'display:inline', :method => :delete} do %>
+	              <a href="javascript:return false" onclick="$(this).closest('form').submit()">Delete</a>
+	            <% end %>
+	        </tr>
+		<% end %> 
       <% end %>
       <tr class=b>
         <td>

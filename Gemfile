@@ -2,6 +2,7 @@ source 'http://rubygems.org'
 
 gem 'rails'
 gem 'pg'
+gem 'dalli'
 gem "awesome_print"
 gem 'unicorn'
 gem 'factory_girl_rails'
