@@ -10,6 +10,12 @@ describe GroupsController do
         get :show, :name => "foobar"
         assigns[:group].should == group
       end
+      
+      it "doesn't allow access by id" do
+        group = Factory(:group, :name => "foobar")
+        get :show, :id => group.id
+        response.status.should == 404
+      end
 
       it "throws a 404 if the group can't be found" do
         get :show, :name => "jibberjabber"

@@ -24,7 +24,7 @@ class ApplicationController < ActionController::Base
     elsif params[:group_id].present?
       @group = Group.find_by_canonicalized_name!(params[:group_id])
     else
-      @group = Group.find(params[:id])
+      raise ActiveRecord::RecordNotFound
     end
   end
 end
