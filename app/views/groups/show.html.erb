@@ -96,6 +96,7 @@
     <table id=hist_table>
       <tr>
         <th>Date
+        <th>Added
         <th>Description
         <th>Cost
         <% @group.members.each do |member|%>
@@ -112,10 +113,8 @@
         	<tr class=t>
 	          <td>
 	              <%= transaction.display_date %>
-	              <% if transaction.display_date != transaction.created_at.to_date %>
-	                <span class="created-at">Created: <br> <%= transaction.created_at.to_date %></span>
-	              <% end %>
 	          </td>
+	          <td><%= transaction.created_at.to_date %></td>
 	          <td><%= transaction.description %>
 	          <td><%= money_no_unit(transaction.amount) %>
 	          <% @group.members.each do |member| %>
