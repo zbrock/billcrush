@@ -115,7 +115,7 @@
 	              <%= transaction.display_date %>
 	          </td>
 	          <td><%= transaction.created_at.to_date %></td>
-	          <td><%= transaction.description %>
+	          <td class="description"><%= transaction.description %>
 	          <td><%= money_no_unit(transaction.amount) %>
 	          <% @group.members.each do |member| %>
 	            <td>
