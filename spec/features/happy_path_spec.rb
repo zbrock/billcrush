@@ -1,7 +1,7 @@
 require 'spec_helper'
 
-describe "creating a group", :type => :request do
-  it "allows a user to create a group, add members and add an expense" do
+feature "creating a group", :type => :request do
+  scenario "allows a user to create a group, add members and add an expense" do
     group_name = "A New Group"
     visit('/groups/new')
     fill_in 'Name', :with => group_name
@@ -43,8 +43,8 @@ describe "creating a group", :type => :request do
   end
 end
 
-describe "error message" do
-  it "shows a message for an invalid group" do
+feature "error message" do
+  scenario "shows a message for an invalid group" do
     visit('/groups/new')
     click_button 'Create group'
     page.should have_content("Bad group name")
