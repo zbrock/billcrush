@@ -3,6 +3,7 @@ source 'http://rubygems.org'
 gem 'rails', "3.0.20"
 gem 'pg'
 gem 'dalli'
+gem 'memcachier'
 gem "awesome_print"
 gem 'unicorn'
 gem 'factory_girl_rails', "1.7.0"
