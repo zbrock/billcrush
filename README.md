@@ -34,4 +34,3 @@ Your best bet is to run your own instance. If you want to use billcrush.com, I s
  * Disable a user so they don't show up in the new entry form anymore (soft delete)
  * Nicer UI to record 1-1 payments (i.e. Zach loaned brian $5)
  * Multiple members can pay
-
