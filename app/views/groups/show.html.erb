@@ -141,7 +141,7 @@
       <tr class=b>
         <td>
         <td>Total
-        <td><%= money(@transactions.sum(:amount)) %>
+        <td><%= @transactions.size %> transactions
         <% @group.members.each do |member|%>
           <td><%= money(member.balance) %>
         <% end %>
