@@ -141,11 +141,11 @@
       <tr class=b>
         <td>
         <td>Total
-        <td><%= @transactions.size %> transactions
+        <td class='total'><%= @transactions.size %> transactions</td>
+        <td></td>
         <% @group.members.each do |member|%>
-          <td><%= money(member.balance) %>
+          <td><%= money(member.balance) %></td>
         <% end %>
-        <td>
     </table>
   <% end %>
 </div>

@@ -230,7 +230,7 @@ h3{
   clear:both;
   padding:24px 12px
 }
-#hist td:first-child+td, #hist td:last-child, #hist td.description {
+#hist td:first-child+td, #hist td:last-child, #hist td.description, #hist td.total {
   text-align:left;
 }
 #hist td{
