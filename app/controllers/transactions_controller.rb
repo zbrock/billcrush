@@ -6,8 +6,9 @@ class TransactionsController < ApplicationController
     cookies[@group.id.to_s + '_last_payer'] = payer.id
     # create inactive so we can create the associated debts
     amount = amount_cents(params[:transaction][:amount])
+    date = Date.strptime(params[:transaction][:date], "%m/%d/%Y") if params[:transaction][:date].present?
     @transaction = @group.transactions.build(:description => params[:transaction][:description],
-                                             :date => params[:transaction][:date],
+                                             :date => date,
                                              :amount => amount,
                                              :active => false, :settlement => params[:transaction][:settlement])
     if @transaction.save
