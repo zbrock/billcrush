@@ -13,8 +13,8 @@ describe MembersController, type: :controller do
       it "redirects to the group settings page" do
         post :create, @params
         group = assigns[:group]
-        response.should redirect_to(group_settings_url(group))
-        flash[:message].should_not be_blank
+        expect(response).to redirect_to(group_settings_url(group))
+        expect(flash[:message]).not_to be_blank
       end
     end
 
@@ -28,8 +28,8 @@ describe MembersController, type: :controller do
       it "redirects to the group settings page" do
         post :create, @params
         group = assigns[:group]
-        response.should redirect_to(group_settings_url(group))
-        flash[:error].should_not be_blank
+        expect(response).to redirect_to(group_settings_url(group))
+        expect(flash[:error]).not_to be_blank
       end
     end
   end

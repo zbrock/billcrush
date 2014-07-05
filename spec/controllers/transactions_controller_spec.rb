@@ -26,7 +26,7 @@ describe TransactionsController, type: :controller do
           @params[:transaction][:settlement] = "1"
           post :create, @params
           transaction = assigns[:transaction]
-          transaction.settlement.should == true
+          expect(transaction.settlement).to eq(true)
         end
       end
       it "changes the transaction count by 1" do
@@ -36,24 +36,24 @@ describe TransactionsController, type: :controller do
       it "sets the values correctly" do
         post :create, @params
         transaction = assigns[:transaction]
-        transaction.amount.should == 113
-        transaction.description.should == "stuff and puff"
-        transaction.should be_active
+        expect(transaction.amount).to eq(113)
+        expect(transaction.description).to eq("stuff and puff")
+        expect(transaction).to be_active
       end
 
       it "sets the users balances appropriately" do
-        @member_one.balance.should == 0
-        @member_two.balance.should == 0
+        expect(@member_one.balance).to eq(0)
+        expect(@member_two.balance).to eq(0)
         post :create, @params
-        @member_one.balance.should == -@member_two.balance
-        @member_one.balance.should == 110
-        @member_two.balance.should == -110
+        expect(@member_one.balance).to eq(-@member_two.balance)
+        expect(@member_one.balance).to eq(110)
+        expect(@member_two.balance).to eq(-110)
       end
 
       it "redirects to the group page" do
         post :create, @params
-        response.should redirect_to(group_url(@group))
-        flash[:message].should_not be_blank
+        expect(response).to redirect_to(group_url(@group))
+        expect(flash[:message]).not_to be_blank
       end
     end
 
@@ -73,16 +73,16 @@ describe TransactionsController, type: :controller do
 
       it "redirects to the new group page" do
         post :create, @params
-        response.should redirect_to(group_url(@group))
-        flash[:error].should_not be_blank
+        expect(response).to redirect_to(group_url(@group))
+        expect(flash[:error]).not_to be_blank
       end
 
       it "doesn't update people's balances" do
-        @member_one.balance.should == 0
-        @member_two.balance.should == 0
+        expect(@member_one.balance).to eq(0)
+        expect(@member_two.balance).to eq(0)
         post :create, @params
-        @member_one.balance.should == 0
-        @member_two.balance.should == 0
+        expect(@member_one.balance).to eq(0)
+        expect(@member_two.balance).to eq(0)
       end
     end
   end
@@ -94,18 +94,18 @@ describe TransactionsController, type: :controller do
     describe "with valid params" do
       it "marks the transaction as inactive" do
         delete :destroy, @params
-        @transaction.reload.active.should be_false
-        @transaction.deleted_at.should_not be_blank
-        response.should redirect_to(group_url(@group))
-        flash[:message].should_not be_blank
+        expect(@transaction.reload.active).to be_falsey
+        expect(@transaction.deleted_at).not_to be_blank
+        expect(response).to redirect_to(group_url(@group))
+        expect(flash[:message]).not_to be_blank
       end
     end
     describe "with invalid params" do
       it "flashes an error and redirects" do
         @params.merge!(:id => "foobar")
         delete :destroy, @params
-        response.should redirect_to(group_url(@group))
-        flash[:error].should_not be_blank
+        expect(response).to redirect_to(group_url(@group))
+        expect(flash[:error]).not_to be_blank
       end
     end
   end

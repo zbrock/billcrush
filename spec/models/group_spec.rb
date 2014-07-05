@@ -1,9 +1,9 @@
 require 'spec_helper'
 
-describe Group do
-  it { should validate_presence_of(:name) }
-  it { should have_many(:members) }
-  it { should have_many(:transactions) }
+describe Group, :type => :model do
+  it { is_expected.to validate_presence_of(:name) }
+  it { is_expected.to have_many(:members) }
+  it { is_expected.to have_many(:transactions) }
   describe "life cycle" do
     describe "canonicalized_name" do
       [
@@ -13,9 +13,9 @@ describe Group do
       ].each do |name|
         it "turns the name #{name[0]} into something url friendly" do
           group = Factory.build(:group, :name => name[0])
-          group.canonicalized_name.should be_blank
+          expect(group.canonicalized_name).to be_blank
           group.save!
-          group.canonicalized_name.should == name[1]
+          expect(group.canonicalized_name).to eq(name[1])
         end
       end
     end
@@ -23,7 +23,7 @@ describe Group do
   describe "#best_way_to_settle" do
 
     it "returns an empty array if there are no members" do
-      Factory(:group).best_way_to_settle.should == []
+      expect(Factory(:group).best_way_to_settle).to eq([])
     end
     context "with members" do
       before do
@@ -42,7 +42,7 @@ describe Group do
       end
 
       it "returns an empty array when there is no debt to settle" do
-        @group.best_way_to_settle.should == []
+        expect(@group.best_way_to_settle).to eq([])
       end
 
       it "returns an array of hashes showing the best way to settle" do
@@ -52,23 +52,23 @@ describe Group do
         create_debit_credit_pair(@member_three, @member_one, 1_00)
         create_debit_credit_pair(@member_one, @member_four, 1_00)
 
-        @member_one.balance.should == -5_00
-        @member_two.balance.should == 15_00
-        @member_three.balance.should == -11_00
-        @member_four.balance.should == 1_00
+        expect(@member_one.balance).to eq(-5_00)
+        expect(@member_two.balance).to eq(15_00)
+        expect(@member_three.balance).to eq(-11_00)
+        expect(@member_four.balance).to eq(1_00)
 
-        @group.best_way_to_settle.should include({:payer => @member_three, :payee => @member_two, :amount => 11_00})
-        @group.best_way_to_settle.should include({:payer => @member_one, :payee => @member_two, :amount => 4_00})
-        @group.best_way_to_settle.should include({:payer => @member_one, :payee => @member_four, :amount => 1_00})
-        @group.best_way_to_settle.size.should == 3
+        expect(@group.best_way_to_settle).to include({:payer => @member_three, :payee => @member_two, :amount => 11_00})
+        expect(@group.best_way_to_settle).to include({:payer => @member_one, :payee => @member_two, :amount => 4_00})
+        expect(@group.best_way_to_settle).to include({:payer => @member_one, :payee => @member_four, :amount => 1_00})
+        expect(@group.best_way_to_settle.size).to eq(3)
       end
 
       it "doesn't include people who don't have debt" do
         create_debit_credit_pair(@member_one, @member_two, 10_93)
 
-        @member_one.balance.should == -10_93
-        @member_two.balance.should == 10_93
-        @group.best_way_to_settle.should == [{:payer => @member_one, :payee => @member_two, :amount => 10_93}]
+        expect(@member_one.balance).to eq(-10_93)
+        expect(@member_two.balance).to eq(10_93)
+        expect(@group.best_way_to_settle).to eq([{:payer => @member_one, :payee => @member_two, :amount => 10_93}])
       end
 
       it "returns an empty array if all the debts cancel" do
@@ -76,7 +76,7 @@ describe Group do
         create_debit_credit_pair(@member_two, @member_three, 10_93)
         create_debit_credit_pair(@member_three, @member_one, 10_93)
 
-        @group.best_way_to_settle.should == []
+        expect(@group.best_way_to_settle).to eq([])
       end
     end
   end

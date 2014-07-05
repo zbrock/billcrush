@@ -8,18 +8,18 @@ describe GroupsController, type: :controller do
       it "routes to the correct group" do
         group = Factory(:group, :name => "foobar")
         get :show, :name => "foobar"
-        assigns[:group].should == group
+        expect(assigns[:group]).to eq(group)
       end
       
       it "doesn't allow access by id" do
         group = Factory(:group, :name => "foobar")
         get :show, :id => group.id
-        response.status.should == 404
+        expect(response.status).to eq(404)
       end
 
       it "throws a 404 if the group can't be found" do
         get :show, :name => "jibberjabber"
-        response.status.should == 404
+        expect(response.status).to eq(404)
       end
     end
   end
@@ -33,7 +33,7 @@ describe GroupsController, type: :controller do
       it "redirects to the new group's settings page" do
         post :create, @params
         group = assigns[:group]
-        response.should redirect_to(group_settings_url(group))
+        expect(response).to redirect_to(group_settings_url(group))
       end
     end
     context "with an invalid name" do
@@ -45,8 +45,8 @@ describe GroupsController, type: :controller do
 
       it "flashes an error message and redirects to new" do
         post :create, @params
-        flash[:error].should_not be_empty
-        response.should redirect_to(new_group_url)
+        expect(flash[:error]).not_to be_empty
+        expect(response).to redirect_to(new_group_url)
       end
     end
   end

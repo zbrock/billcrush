@@ -1,9 +1,9 @@
 require 'spec_helper'
 
-describe Credit do
-  it { should validate_presence_of(:amount_cents) }
-  it { should validate_presence_of(:member) }
+describe Credit, :type => :model do
+  it { is_expected.to validate_presence_of(:amount_cents) }
+  it { is_expected.to validate_presence_of(:member) }
 
-  it { should belong_to(:member) }
-  it { should belong_to(:transaction) }
+  it { is_expected.to belong_to(:member) }
+  it { is_expected.to belong_to(:transaction) }
 end
