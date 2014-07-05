@@ -15,8 +15,8 @@ class GroupsController < ApplicationController
   end
 
   def show
-    redirect_to(group_url(@group)) if request.env['REQUEST_URI'] =~ /\?$/
     load_group
+    redirect_to(group_url(@group)) if request.env['REQUEST_URI'] =~ /\?$/
     if cookies[:show_help].present?
       flash.now[:message] = "Don't forget your url! It's the only way to access your group."
       cookies[:show_help] = nil
