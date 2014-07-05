@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe TransactionsController do
+describe TransactionsController, type: :controller do
   before { @group = Factory(:group) }
   describe "#create" do
     before do
@@ -26,7 +26,7 @@ describe TransactionsController do
           @params[:transaction][:settlement] = "1"
           post :create, @params
           transaction = assigns[:transaction]
-          transaction.settlement.should be_true
+          transaction.settlement.should == true
         end
       end
       it "changes the transaction count by 1" do

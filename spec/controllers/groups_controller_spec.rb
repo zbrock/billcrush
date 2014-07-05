@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe GroupsController do
+describe GroupsController, type: :controller do
   render_views
 
   describe "#show" do

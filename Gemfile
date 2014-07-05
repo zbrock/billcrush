@@ -1,7 +1,7 @@
 source 'http://rubygems.org'
 ruby "2.0.0"
 
-gem 'rails', "3.0.20"
+gem 'rails', "3.2.19"
 gem 'pg'
 gem 'dalli'
 gem 'memcachier'
@@ -12,7 +12,7 @@ gem 'forgery'
 
 group :test, :development do
   gem "shoulda"
-  gem "rspec-rails", "~> 2.6.0"
+  gem "rspec-rails"
   gem 'capybara', :require => false
   gem 'launchy'
 end

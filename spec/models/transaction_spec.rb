@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Transaction do
+describe Transaction, type: :model do
   it { should have_many(:debits) }
   it { should have_many(:credits) }
   it { should belong_to(:group) }
