@@ -20,4 +20,8 @@ Billcrush::Application.routes.draw do
   
   match '/:name' => 'groups#show', :as => :group
   match '/:name/settings' => 'groups#settings', :as => :group_settings
+
+  namespace :api do
+    match '/groups/:name' => "groups#show", :as => :group
+  end
 end

@@ -18,14 +18,14 @@ ActiveRecord::Schema.define(:version => 20101223224604) do
     t.integer  "amount_cents"
     t.integer  "transaction_id"
     t.boolean  "active",         :default => true
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",                       :null => false
+    t.datetime "updated_at",                       :null => false
   end
 
   create_table "debits", :force => true do |t|
     t.integer  "amount_cents"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",                        :null => false
+    t.datetime "updated_at",                        :null => false
     t.integer  "transaction_id"
     t.boolean  "active",         :default => false
     t.integer  "member_id"
@@ -34,22 +34,22 @@ ActiveRecord::Schema.define(:version => 20101223224604) do
   create_table "groups", :force => true do |t|
     t.string   "name"
     t.string   "canonicalized_name"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",         :null => false
+    t.datetime "updated_at",         :null => false
   end
 
   create_table "members", :force => true do |t|
     t.integer  "group_id"
     t.string   "name"
     t.boolean  "active",     :default => true
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",                   :null => false
+    t.datetime "updated_at",                   :null => false
   end
 
   create_table "transactions", :force => true do |t|
     t.string   "description"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",                     :null => false
+    t.datetime "updated_at",                     :null => false
     t.integer  "group_id"
     t.integer  "amount"
     t.boolean  "active",      :default => false
