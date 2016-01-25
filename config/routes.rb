@@ -22,6 +22,8 @@ Billcrush::Application.routes.draw do
   match '/:name/settings' => 'groups#settings', :as => :group_settings
 
   namespace :api do
-    match '/groups/:name' => "groups#show", :as => :group
+    resources :groups, only: "show" do
+      resources :transactions, only: "create"
+    end
   end
 end
