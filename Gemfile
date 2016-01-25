@@ -15,4 +15,5 @@ group :test, :development do
   gem "rspec-rails"
   gem 'capybara', :require => false
   gem 'launchy'
+  gem 'pry'
 end
